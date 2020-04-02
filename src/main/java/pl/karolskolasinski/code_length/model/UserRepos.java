@@ -2,9 +2,9 @@ package pl.karolskolasinski.code_length.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.Getter;
 
-
-@Data
+@Getter
 public class UserRepos {
 
     @SerializedName("id")
@@ -212,7 +212,7 @@ public class UserRepos {
     private int open_issues_count;
 
     @SerializedName("license")
-    private String license;
+    private License license;
 
     @SerializedName("forks")
     private int forks;

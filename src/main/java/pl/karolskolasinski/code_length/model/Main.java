@@ -11,7 +11,10 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -20,7 +23,7 @@ public class Main {
         final Gson gson = gsonBuilder.create();
 
         APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
-        String userProfileURL = apiGithubURLBuilder.getUserProfileURL("karolskolasinski");
+        String userProfileURL = apiGithubURLBuilder.getUserProfile("karolskolasinski");
 
         URL url = new URL(userProfileURL);
 
@@ -30,12 +33,32 @@ public class Main {
 
         bufferedReader.lines().forEach(stringBuilder::append);
 
+        User user = gson.fromJson(stringBuilder.toString(), User.class);
 
-        Type collectionType = new TypeToken<Collection<UserRepos>>() {
-        }.getType();
-        Collection<UserRepos> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
+//        System.err.println(codebeautify.getPublic_repos());
+        System.out.println(user.getPublic_repos());
 
-        System.err.println(fromJson.size());
+//        Type collectionType = new TypeToken<Collection<UserList>>() {
+//        }.getType();
+//        Collection<UserList> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
+
+//        User user = fromJson.iterator().next();
+//        System.out.println(user.getPublic_repos());
+
+        URLConnection conn = url.openConnection();
+
+//        //get all headers
+//        Map<String, List<String>> map = conn.getHeaderFields();
+//        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+//            System.out.println("Key : " + entry.getKey() +
+//                    " ,Value : " + entry.getValue());
+//        }
+//
+//        //get header by 'key'
+//        String server = conn.getHeaderField("Server");
+
+
+
 
 //        UserRepos next = fromJson.iterator().next();
 //        System.out.println(next.getOwner().getLogin());
