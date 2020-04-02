@@ -1,9 +1,10 @@
 package pl.karolskolasinski.code_length.model;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
-import java.util.List;
 
+@Data
 public class UserRepos {
 
     @SerializedName("id")
@@ -22,7 +23,7 @@ public class UserRepos {
     private boolean is_private;
 
     @SerializedName("owner")
-    private List<Owner> owner;
+    private Owner owner;
 
     @SerializedName("html_url")
     private String html_url;

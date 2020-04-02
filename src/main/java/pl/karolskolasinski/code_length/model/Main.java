@@ -116,12 +116,12 @@ public class Main {
                 "  }]";
 
 
-        Type collectionType = new TypeToken<Collection<UserRepos>>() {}.getType();
+        Type collectionType = new TypeToken<Collection<UserRepos>>() {
+        }.getType();
         Collection<UserRepos> fromJson = gson.fromJson(val1, collectionType);
 
-        for (UserRepos userRepos : fromJson) {
-            System.out.println(userRepos);
-        }
+        UserRepos next = fromJson.iterator().next();
+
 
     }
 }
