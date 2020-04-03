@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.karolskolasinski.code_length.service.GithubService;
@@ -25,7 +26,7 @@ public class IndexController {
     }
 
     @PostMapping("/get")
-    public String getLength(String username, Model model) {
+    public String getLength(Model model, @ModelAttribute("username") String username) {
         model.addAttribute("numberOfRepos", githubService.numberOfRepos(username));
         model.addAttribute("length", githubService.codeLengthMeter(username));
         model.addAttribute("language", githubService.language(username));

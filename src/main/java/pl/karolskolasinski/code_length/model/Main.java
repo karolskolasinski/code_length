@@ -23,7 +23,7 @@ public class Main {
         final Gson gson = gsonBuilder.create();
 
         APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
-        String userProfileURL = apiGithubURLBuilder.getUserProfile("karolskolasinski");
+        String userProfileURL = apiGithubURLBuilder.getUserProfileURL("karolskolasinski", 1);
 
         URL url = new URL(userProfileURL);
 
@@ -33,15 +33,13 @@ public class Main {
 
         bufferedReader.lines().forEach(stringBuilder::append);
 
-        User user = gson.fromJson(stringBuilder.toString(), User.class);
 
-//        System.err.println(codebeautify.getPublic_repos());
-        System.out.println(user.getPublic_repos());
 
-//        Type collectionType = new TypeToken<Collection<UserList>>() {
-//        }.getType();
-//        Collection<UserList> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
+        Type collectionType = new TypeToken<Collection<UserRepos>>() {
+        }.getType();
+        Collection<UserRepos> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
 
+        System.out.println(fromJson.iterator().next().getBranches_url());
 //        User user = fromJson.iterator().next();
 //        System.out.println(user.getPublic_repos());
 

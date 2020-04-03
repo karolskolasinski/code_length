@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:fragment="meta">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </th:block>
+
+    <title></title>
+
+    <th:block th:fragment="link-styles">
+        <!--<link rel="stylesheet" th:href="@{/webjars/materialize-css/1.0.0/dist/css/materialize.css}"/>-->
+        <!--<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css" media="all"/>-->
+    </th:block>
+</head>
+
+<body>
+<th:block th:fragment="header">
+</th:block>
+
+<th:block th:fragment="footer">
+    <br/>
+
+    <footer class="page-footer  grey lighten-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h5 class="grey-text text-darken-1">Attribution</h5>
+                    <a href="https://www.freepik.com/free-photos-vectors/circle" class="grey-text text-lighten-1"
+                       target="_blank">
+                        Circle vector created by vectorpocket - www.freepik.com</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright grey-text">
+            <div class="container">
+                <span>© 2020-<script type="text/javascript" th:src="@{js/year.js}"></script>
+                    designed by Karol Skolasiński</span>
+
+                <span class="right">
+                    <a class="black-text text-lighten-1"
+                       href="mailto:karolskolasinski@gmail.com?subject=Magic 8-ball&body=Awesome app!">Contact</a>
+                    <span> | </span>
+                    <span><a class="black-text text-lighten-1" href="https://www.linkedin.com/in/karolskolasinski/"
+                             target="_blank">About Me</a></span>
+                    <span> | </span>
+                    <a class="black-text text-lighten-1"
+                       href="https://github.com/karolskolasinski/magic8ball">Github</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+    <br/>
+</th:block>
+
+<th:block th:fragment="scripts">
+    <!--<script type="text/javascript" th:src="@{/webjars/materialize-css/1.0.0/dist/js/materialize.js}"></script>-->
+    <!--<script type="text/javascript" th:src="@{/js/replaceValidation.js}"></script>-->
+</th:block>
+
+</body>
+</html>
