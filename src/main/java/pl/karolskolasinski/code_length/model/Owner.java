@@ -2,8 +2,9 @@ package pl.karolskolasinski.code_length.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class Owner {
 
     @SerializedName("login")
