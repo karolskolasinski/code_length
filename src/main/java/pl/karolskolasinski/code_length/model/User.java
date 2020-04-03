@@ -1,7 +1,6 @@
 package pl.karolskolasinski.code_length.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
@@ -83,16 +82,16 @@ public class User {
     private String bio;
 
     @SerializedName("public_repos")
-    private int public_repos;
+    private double public_repos;
 
     @SerializedName("public_gists")
-    private int public_gists;
+    private double public_gists;
 
     @SerializedName("followers")
-    private int followers;
+    private double followers;
 
     @SerializedName("following")
-    private int following;
+    private double following;
 
     @SerializedName("created_at")
     private String created_at;

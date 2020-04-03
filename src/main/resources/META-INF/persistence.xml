@@ -14,8 +14,8 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="java.persistence.jdbc.user" value="admin"/>
-            <property name="java.persistence.jdbc.password" value="admin"/>
+            <property name="java.persistence.jdbc.user" value="postgres"/>
+            <property name="java.persistence.jdbc.password" value="$3cR3t"/>
         </properties>
     </persistence-unit>
 </persistence>
