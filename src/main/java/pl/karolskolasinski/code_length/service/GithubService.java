@@ -39,8 +39,8 @@ public class GithubService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             reader.lines().forEach(stringBuilder::append);
             User user = gson.fromJson(stringBuilder.toString(), User.class);
-            double public_repos = user.getPublic_repos();
-            numberOfRepos = (int) public_repos;
+            double publicRepos = user.getPublic_repos();
+            numberOfRepos = (int) publicRepos;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class GithubService {
     }
 
     public double codeLengthMeter(String username) {
-        String userProfile = apiGithubURLBuilder.getUserProfileURL(username, numberOfRepos);
+        String userProfile = apiGithubURLBuilder.getUserProfileURL(username, numberOfRepos / 30);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         StringBuilder stringBuilder = new StringBuilder();
@@ -61,11 +61,12 @@ public class GithubService {
             Type collectionType = new TypeToken<Collection<UserRepos>>() {
             }.getType();
             Collection<UserRepos> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
+            System.out.println(fromJson.size());
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }
 
-//        System.out.println(userRepos.iterator().next().getArchive_url());
         return 0;
     }
 
