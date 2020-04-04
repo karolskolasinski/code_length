@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
@@ -23,7 +24,7 @@ public class GithubService {
 
     private int numberOfRepos;
 
-    private Collection<UserRepos> userRepos;
+    private Collection<UserRepos> userRepos = new ArrayList<>();
 
     public int numberOfRepos(String username) {
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -59,12 +60,12 @@ public class GithubService {
             reader.lines().forEach(stringBuilder::append);
             Type collectionType = new TypeToken<Collection<UserRepos>>() {
             }.getType();
-            userRepos.addAll(gson.fromJson(stringBuilder.toString(), collectionType));
+            Collection<UserRepos> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
 
-        System.out.println(userRepos.iterator().next().getArchive_url());
+//        System.out.println(userRepos.iterator().next().getArchive_url());
         return 0;
     }
 
