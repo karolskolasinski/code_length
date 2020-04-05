@@ -13,52 +13,52 @@ public class User {
     private int id;
 
     @SerializedName("node_id")
-    private String node_id;
+    private String nodeId;
 
     @SerializedName("avatar_url")
-    private String avatar_url;
+    private String avatarURL;
 
     @SerializedName("gravatar_id")
-    private String gravatar_id;
+    private String gravatarId;
 
     @SerializedName("url")
-    private String url;
+    private String URL;
 
     @SerializedName("html_url")
-    private String html_url;
+    private String htmlURL;
 
     @SerializedName("followers_url")
-    private String followers_url;
+    private String followersURL;
 
     @SerializedName("following_url")
-    private String following_url;
+    private String followingURL;
 
     @SerializedName("gists_url")
-    private String gists_url;
+    private String gistsURL;
 
     @SerializedName("starred_url")
-    private String starred_url;
+    private String starredURL;
 
     @SerializedName("subscriptions_url")
-    private String subscriptions_url;
+    private String subscriptionsURL;
 
     @SerializedName("organizations_url")
-    private String organizations_url;
+    private String organizationsURL;
 
     @SerializedName("repos_url")
-    private String repos_url;
+    private String reposURL;
 
     @SerializedName("events_url")
-    private String events_url;
+    private String eventsURL;
 
     @SerializedName("received_events_url")
-    private String received_events_url;
+    private String receivedEventsURL;
 
     @SerializedName("type")
     private String type;
 
     @SerializedName("site_admin")
-    private boolean site_admin;
+    private boolean siteAdmin;
 
     @SerializedName("name")
     private String name;
@@ -82,21 +82,21 @@ public class User {
     private String bio;
 
     @SerializedName("public_repos")
-    private double public_repos;
+    private int publicRepos;
 
     @SerializedName("public_gists")
-    private double public_gists;
+    private int publicGists;
 
     @SerializedName("followers")
-    private double followers;
+    private int followers;
 
     @SerializedName("following")
-    private double following;
+    private int following;
 
     @SerializedName("created_at")
-    private String created_at;
+    private String createdAt;
 
     @SerializedName("updated_at")
-    private String updated_at;
+    private String updatedAt;
 
 }

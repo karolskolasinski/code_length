@@ -13,11 +13,11 @@ public class License {
     private String name;
 
     @SerializedName("spdx_id")
-    private String spdx_id;
+    private String spdxId;
 
     @SerializedName("url")
-    private String url;
+    private String URL;
 
     @SerializedName("node_id")
-    private String node_id;
+    private String nodeId;
 }

@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,58 +20,77 @@ import java.util.Collection;
 public class GithubService {
 
     private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
-
-    private int numberOfRepos;
-
+    private GsonBuilder gsonBuilder = new GsonBuilder();
+    private Gson gson = gsonBuilder.create();
+    private int publicRepos;
     private Collection<UserRepos> userRepos = new ArrayList<>();
 
+    /**
+     *
+     */
     public int numberOfRepos(String username) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
 
+        readJSONFromURLByStringBuilder(sb, userProfileURL);
+        User user = gson.fromJson(sb.toString(), User.class);
 
-        String userProfile = apiGithubURLBuilder.getUserProfile(username);
-
-        try {
-            URL url = new URL(userProfile);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.lines().forEach(stringBuilder::append);
-            User user = gson.fromJson(stringBuilder.toString(), User.class);
-            double publicRepos = user.getPublic_repos();
-            numberOfRepos = (int) publicRepos;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return numberOfRepos;
+        return publicRepos = user.getPublicRepos();
     }
 
+    /**
+     *
+     */
     public double codeLengthMeter(String username) {
-        String userProfile = apiGithubURLBuilder.getUserProfileURL(username, numberOfRepos / 30);
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
-        StringBuilder stringBuilder = new StringBuilder();
+        int numberOfPages = getNumberOfPages();
 
-        try {
-            URL url = new URL(userProfile);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.lines().forEach(stringBuilder::append);
+        for (int i = 1; i <= numberOfPages; i++) {
+            String userProfile = apiGithubURLBuilder.getUserReposURL(username, i);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            readJSONFromURLByStringBuilder(stringBuilder, userProfile);
+
             Type collectionType = new TypeToken<Collection<UserRepos>>() {
             }.getType();
-            Collection<UserRepos> fromJson = gson.fromJson(stringBuilder.toString(), collectionType);
-            System.out.println(fromJson.size());
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            userRepos.addAll(gson.fromJson(stringBuilder.toString(), collectionType));
         }
+
 
         return 0;
     }
 
-    public String language(String username) {
+    /**
+     *
+     */
+    private void readJSONFromURLByStringBuilder(StringBuilder stringBuilder, String URLAddress) {
+        try {
+            URL url = new URL(URLAddress);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            reader.lines().forEach(stringBuilder::append);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     *
+     */
+    private int getNumberOfPages() {
+        double v = (double) publicRepos / 30;
+
+        if (v > Math.round(v)) {
+            v++;
+        }
+
+        return (int) v;
+    }
+
+    /**
+     *
+     */
+    public String language(String username) {
 
         return null;
     }
+
 }
