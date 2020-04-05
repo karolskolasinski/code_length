@@ -28,7 +28,7 @@ public class IndexController {
     @PostMapping("/get")
     public String getLength(Model model, @ModelAttribute("username") String username) {
         model.addAttribute("numberOfRepos", githubService.numberOfRepos(username));
-        model.addAttribute("length", githubService.codeLengthMeter(username));
+        model.addAttribute("length", githubService.codeLengthMeter());
         model.addAttribute("language", githubService.language(username));
         return "codelength";
     }
