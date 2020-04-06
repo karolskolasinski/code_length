@@ -10,7 +10,6 @@ import pl.karolskolasinski.code_length.model.Tree;
 import pl.karolskolasinski.code_length.model.User;
 import pl.karolskolasinski.code_length.model.UserRepos;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,11 +28,16 @@ public class GithubService {
     private Gson gson = gsonBuilder.create();
     private int publicRepos;
     private Collection<UserRepos> userRepos = new ArrayList<>();
-    private List<String> repoNames = new ArrayList<>();
-    private Collection<SingleRepo> singleRepos = new ArrayList<>();
     private double km;
-    private List<Long> eachFileLength = new ArrayList<>();
+    private List<Integer> eachFileLength = new ArrayList<>();
+    private List<String> supportedFiles = new ArrayList<>();
 
+    public GithubService() {
+        supportedFiles.add(".java");
+        supportedFiles.add(".html");
+        supportedFiles.add(".css");
+        supportedFiles.add(".js");
+    }
 
     /**
      *
@@ -74,47 +78,44 @@ public class GithubService {
      */
     private double getKilometersFromRepos() {
         userRepos.stream().map(UserRepos::getName).forEach(repoName -> {
-            StringBuilder sb = new StringBuilder();
             String singleRepositoryURL = apiGithubURLBuilder.getSingleRepositoryURL(username, repoName);
-            addSingleRepoToList(sb, singleRepositoryURL, repoName);
+            addSingleRepoToList(singleRepositoryURL);
         });
+        countKilometers();
+        return Math.round(km / 10000);
+    }
 
-        eachFileLength.forEach(length -> {
-            km = +length * 0.185206;
-        });
-
-        return km;
+    private void countKilometers() {
+        eachFileLength.forEach(length -> km += (length * 0.185206));
     }
 
     /**
      *
      */
-    private void addSingleRepoToList(StringBuilder sb, String singleRepositoryURL, String repoName) {
+    private void addSingleRepoToList(String singleRepositoryURL) {
+        StringBuilder sb = new StringBuilder();
+
         readJSONFromURLByStringBuilder(sb, singleRepositoryURL);
         SingleRepo singleRepo = gson.fromJson(sb.toString(), SingleRepo.class);
-        List<Tree> tree = singleRepo.getTree();
 
-        tree.forEach(singleRepoTree -> {
-            if (singleRepoTree.getPath().contains(".html") ||
-                    singleRepoTree.getPath().contains(".css") ||
-                    singleRepoTree.getPath().contains(".js") ||
-                    singleRepoTree.getPath().contains(".java")) {
-                getCodeFromSingleFile(repoName, singleRepoTree.getPath());
-            }
-        });
+        singleRepo.getTree().forEach(this::searchForSupportedFiles);
     }
 
     /**
      *
      */
-    private void getCodeFromSingleFile(String repoName, String path) {
-        String rawFileURL = apiGithubURLBuilder.getRawFileURL(username, repoName, path);
-        StringBuilder stringBuilder = new StringBuilder();
+    private void searchForSupportedFiles(Tree singleRepoTree) {
+        String path = singleRepoTree.getPath();
+        supportedFiles.forEach(supportedFile -> checkIsSupported(singleRepoTree, path, supportedFile));
+    }
 
-        readJSONFromURLByStringBuilder(stringBuilder, rawFileURL);
-
-        Long length = (long) stringBuilder.toString().trim().length();
-        eachFileLength.add(length);
+    /**
+     *
+     */
+    private void checkIsSupported(Tree singleRepoTree, String path, String supportedFile) {
+        if (path.contains(supportedFile)) {
+            eachFileLength.add(singleRepoTree.getSize());
+        }
     }
 
     /**
