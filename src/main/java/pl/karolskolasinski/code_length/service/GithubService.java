@@ -44,11 +44,10 @@ public class GithubService {
      *
      */
     public int numberOfRepos(String username) {
-        this.username = username;
-        StringBuilder sb = new StringBuilder();
-        String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
-
         try {
+            this.username = username;
+            StringBuilder sb = new StringBuilder();
+            String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
             readJSONFromURLByStringBuilder(sb, userProfileURL);
             User user = gson.fromJson(sb.toString(), User.class);
             publicRepos = user.getPublicRepos();
@@ -67,27 +66,20 @@ public class GithubService {
         int numberOfPages = getNumberOfPages();
 
         for (int i = 1; i <= numberOfPages; i++) {
-            String userProfile = apiGithubURLBuilder.getUserReposURL(username, i);
-            StringBuilder stringBuilder = new StringBuilder();
+            try {
+                String userProfile = apiGithubURLBuilder.getUserReposURL(username, i);
+                StringBuilder sb = new StringBuilder();
+                readJSONFromURLByStringBuilder(sb, userProfile);
 
-            kilometersFromRepos = getKilometersFromRepos(userProfile, stringBuilder);
-        }
+                Type collectionType = new TypeToken<Collection<UserRepos>>() {
+                }.getType();
+                userRepos.addAll(gson.fromJson(sb.toString(), collectionType));
 
-        return kilometersFromRepos;
-    }
-
-    private double getKilometersFromRepos(String userProfile, StringBuilder stringBuilder) {
-        try {
-            readJSONFromURLByStringBuilder(stringBuilder, userProfile);
-
-            Type collectionType = new TypeToken<Collection<UserRepos>>() {
-            }.getType();
-            userRepos.addAll(gson.fromJson(stringBuilder.toString(), collectionType));
-
-            kilometersFromRepos = getKilometersFromRepos();
-        } catch (IOException e) {
-            kilometersFromRepos = -1;
-            e.printStackTrace();
+                kilometersFromRepos = getKilometersFromRepos();
+            } catch (IOException e) {
+                kilometersFromRepos = -1;
+                e.printStackTrace();
+            }
         }
 
         return kilometersFromRepos;
