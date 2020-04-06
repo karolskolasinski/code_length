@@ -26,7 +26,8 @@ public class GithubService {
     private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
     private GsonBuilder gsonBuilder = new GsonBuilder();
     private Gson gson = gsonBuilder.create();
-    private int publicRepos;
+    private int publicRepos = -1;
+    private double kilometersFromRepos = -1;
     private Collection<UserRepos> userRepos = new ArrayList<>();
     private double km;
     private List<Integer> eachFileLength = new ArrayList<>();
@@ -45,12 +46,18 @@ public class GithubService {
     public int numberOfRepos(String username) {
         this.username = username;
         StringBuilder sb = new StringBuilder();
-        String userProfileURL = apiGithubURLBuilder.getUserProfileURL(this.username);
+        String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
 
-        readJSONFromURLByStringBuilder(sb, userProfileURL);
-        User user = gson.fromJson(sb.toString(), User.class);
+        try {
+            readJSONFromURLByStringBuilder(sb, userProfileURL);
+            User user = gson.fromJson(sb.toString(), User.class);
+            publicRepos = user.getPublicRepos();
+        } catch (IOException e) {
+            publicRepos = -1;
+            e.printStackTrace();
+        }
 
-        return publicRepos = user.getPublicRepos();
+        return publicRepos;
     }
 
     /**
@@ -63,14 +70,27 @@ public class GithubService {
             String userProfile = apiGithubURLBuilder.getUserReposURL(username, i);
             StringBuilder stringBuilder = new StringBuilder();
 
+            kilometersFromRepos = getKilometersFromRepos(userProfile, stringBuilder);
+        }
+
+        return kilometersFromRepos;
+    }
+
+    private double getKilometersFromRepos(String userProfile, StringBuilder stringBuilder) {
+        try {
             readJSONFromURLByStringBuilder(stringBuilder, userProfile);
 
             Type collectionType = new TypeToken<Collection<UserRepos>>() {
             }.getType();
             userRepos.addAll(gson.fromJson(stringBuilder.toString(), collectionType));
+
+            kilometersFromRepos = getKilometersFromRepos();
+        } catch (IOException e) {
+            kilometersFromRepos = -1;
+            e.printStackTrace();
         }
 
-        return getKilometersFromRepos();
+        return kilometersFromRepos;
     }
 
     /**
@@ -81,24 +101,39 @@ public class GithubService {
             String singleRepositoryURL = apiGithubURLBuilder.getSingleRepositoryURL(username, repoName);
             addSingleRepoToList(singleRepositoryURL);
         });
-        countKilometers();
-        return Math.round(km / 10000);
+
+        return countKilometers();
     }
 
-    private void countKilometers() {
-        eachFileLength.forEach(length -> km += (length * 0.185206));
+    /**
+     *
+     */
+    private double countKilometers() {
+        eachFileLength.forEach(length -> km += length * 0.0000002645833);
+        return roundOff();
+    }
+
+    /**
+     *
+     */
+    private double roundOff() {
+        return Math.round(km * 100.0) / 100.0;
     }
 
     /**
      *
      */
     private void addSingleRepoToList(String singleRepositoryURL) {
-        StringBuilder sb = new StringBuilder();
+        try {
+            StringBuilder sb = new StringBuilder();
 
-        readJSONFromURLByStringBuilder(sb, singleRepositoryURL);
-        SingleRepo singleRepo = gson.fromJson(sb.toString(), SingleRepo.class);
+            readJSONFromURLByStringBuilder(sb, singleRepositoryURL);
+            SingleRepo singleRepo = gson.fromJson(sb.toString(), SingleRepo.class);
 
-        singleRepo.getTree().forEach(this::searchForSupportedFiles);
+            singleRepo.getTree().forEach(this::searchForSupportedFiles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -121,14 +156,10 @@ public class GithubService {
     /**
      *
      */
-    private void readJSONFromURLByStringBuilder(StringBuilder sb, String URLAddress) {
-        try {
-            URL url = new URL(URLAddress);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.lines().forEach(sb::append);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void readJSONFromURLByStringBuilder(StringBuilder sb, String URLAddress) throws IOException {
+        URL url = new URL(URLAddress);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        reader.lines().forEach(sb::append);
     }
 
     /**

@@ -16,8 +16,8 @@ public class IndexController {
     private GithubService githubService;
 
     @Autowired
-    public IndexController(GithubService githubService) {
-        this.githubService = githubService;
+    public IndexController() {
+        this.githubService = new GithubService();
     }
 
     @GetMapping("/")
@@ -27,6 +27,7 @@ public class IndexController {
 
     @PostMapping("/get")
     public String getLength(Model model, @ModelAttribute("username") String username) {
+        model.addAttribute("username", username);
         model.addAttribute("numberOfRepos", githubService.numberOfRepos(username));
         model.addAttribute("length", githubService.codeLengthMeter());
         model.addAttribute("language", githubService.language(username));
