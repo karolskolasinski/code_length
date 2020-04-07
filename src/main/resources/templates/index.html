@@ -33,9 +33,11 @@
 
         <div th:each="user : ${top10}" class="row">
             <span class="col-md-1 mt-2" th:text="${user.getUsername()}"></span> |
+            <span class="col-md-1 mt-2" th:text="${user.getNumberOfRepos()}"></span> |
             <span class="col-md-2 mt-2" th:text="${user.getLength()}"></span> |
             <span class="col-md-3 mt-2" th:text="${user.getLanguage()}"></span> |
-            <span class="col-md-3 mt-2" th:text="${user.getLocalDateTime()}"></span>
+            <span class="col-md-3 mt-2"
+                  th:text="${#temporals.format(user.getLocalDateTime(), 'dd-MM-yyyy HH:mm')}"></span>
         </div>
 
 

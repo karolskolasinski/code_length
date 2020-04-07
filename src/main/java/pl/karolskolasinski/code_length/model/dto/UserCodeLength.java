@@ -20,6 +20,8 @@ public class UserCodeLength {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private int numberOfRepos;
+
     @NotNull
     private String username;
 
@@ -30,7 +32,8 @@ public class UserCodeLength {
     @CreationTimestamp
     private LocalDateTime localDateTime;
 
-    public UserCodeLength(String username, double length, String language) {
+    public UserCodeLength(int numberOfRepos, @NotNull String username, double length, String language) {
+        this.numberOfRepos = numberOfRepos;
         this.username = username;
         this.length = length;
         this.language = language;

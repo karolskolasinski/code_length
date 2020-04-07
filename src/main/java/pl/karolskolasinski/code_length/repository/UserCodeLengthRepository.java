@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface UserCodeLengthRepository extends CrudRepository<UserCodeLength, Integer> {
 
-//    List<UserCodeLength> findTop10By();
     List<UserCodeLength> findFirst10ByOrderByLengthDesc();
 }

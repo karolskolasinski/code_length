@@ -164,11 +164,18 @@ public class GithubUtil {
      *
      */
     private int getNumberOfPages() {
-        double v = (double) publicRepos / 30;
-        if (v > Math.round(v)) {
-            v++;
+        double pages = (double) publicRepos / 30;
+        if (pages > Math.round(pages)) {
+            pages++;
         }
-        return (int) v;
+        return (int) pages;
+    }
+
+    /**
+     *
+     */
+    public UserCodeLength createUser() {
+        return new UserCodeLength(publicRepos, username, roundOff(), language);
     }
 
     /**
@@ -177,10 +184,6 @@ public class GithubUtil {
     public String language(String username) {
 
         return null;
-    }
-
-    public UserCodeLength createUser() {
-        return new UserCodeLength(username, roundOff(), language);
     }
 
 }
