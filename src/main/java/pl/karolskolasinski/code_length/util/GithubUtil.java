@@ -9,6 +9,7 @@ import pl.karolskolasinski.code_length.model.SingleRepo;
 import pl.karolskolasinski.code_length.model.Tree;
 import pl.karolskolasinski.code_length.model.User;
 import pl.karolskolasinski.code_length.model.UserRepos;
+import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class GithubUtil {
     private Gson gson = gsonBuilder.create();
     private int publicRepos = -1;
     private double kilometersFromRepos = -1;
+    private String language;
     private Collection<UserRepos> userRepos = new ArrayList<>();
     private double km;
     private List<Integer> eachFileLength = new ArrayList<>();
@@ -175,6 +177,10 @@ public class GithubUtil {
     public String language(String username) {
 
         return null;
+    }
+
+    public UserCodeLength createUser() {
+        return new UserCodeLength(username, km, language);
     }
 
 }

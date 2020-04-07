@@ -2,8 +2,6 @@ package pl.karolskolasinski.code_length.api;
 
 public class APIGithubURLBuilder {
 
-    private final StringBuilder builder = new StringBuilder();
-
     public String getUserReposURL(String username, int page) {
         String url = "https://api.github.com/users/{username}/repos?per_page=30&page=";
         return url.replace("{username}", username) + page;
@@ -17,11 +15,6 @@ public class APIGithubURLBuilder {
     public String getSingleRepositoryURL(String username, String repositoryName) {
         String url = "https://api.github.com/repos/{username}/{repositoryName}/git/trees/master?recursive=1";
         return url.replace("{username}", username).replace("{repositoryName}", repositoryName);
-    }
-
-    public String getRawFileURL(String username, String repositoryName, String path) {
-        String url = "https://raw.githubusercontent.com/{username}/{repositoryName}/master/{path}";
-        return url.replace("{username}", username).replace("{repositoryName}", repositoryName).replace("{path}", path);
     }
 
 }
