@@ -1,4 +1,4 @@
-package pl.karolskolasinski.code_length.service;
+package pl.karolskolasinski.code_length.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class GithubService {
+public class GithubUtil {
 
     private String username;
     private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
@@ -32,8 +32,11 @@ public class GithubService {
     private double km;
     private List<Integer> eachFileLength = new ArrayList<>();
     private List<String> supportedFiles = new ArrayList<>();
+    private static final double CHAR_LENGTH_IN_PIXEL = 7;
+    private static final double PIXEL_IN_KILOMETER = 0.0000002645833;
+    private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXEL * PIXEL_IN_KILOMETER;
 
-    public GithubService() {
+    public GithubUtil() {
         supportedFiles.add(".java");
         supportedFiles.add(".html");
         supportedFiles.add(".css");
@@ -101,7 +104,7 @@ public class GithubService {
      *
      */
     private double countKilometers() {
-        eachFileLength.forEach(length -> km += length * 0.0000002645833);
+        eachFileLength.forEach(length -> km += length * MULTIPLIER);
         return roundOff();
     }
 
@@ -124,6 +127,7 @@ public class GithubService {
 
             singleRepo.getTree().forEach(this::searchForSupportedFiles);
         } catch (IOException e) {
+            kilometersFromRepos = -1;
             e.printStackTrace();
         }
     }
