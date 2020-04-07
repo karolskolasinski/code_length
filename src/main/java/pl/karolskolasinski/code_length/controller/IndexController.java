@@ -14,15 +14,16 @@ import pl.karolskolasinski.code_length.util.GithubUtil;
 @RequestMapping(path = "/")
 public class IndexController {
 
-    private UserCodeLengthService userCodeLengthService;
+    private UserCodeLengthService uclService;
 
     @Autowired
-    public IndexController(UserCodeLengthService userCodeLengthService) {
-        this.userCodeLengthService = userCodeLengthService;
+    public IndexController(UserCodeLengthService uclService) {
+        this.uclService = uclService;
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("top10", uclService.top10());
         return "index";
     }
 
@@ -34,7 +35,7 @@ public class IndexController {
         model.addAttribute("numberOfRepos", gu.numberOfRepos(username));
         model.addAttribute("length", gu.codeLengthMeter());
         model.addAttribute("language", gu.language(username));
-        userCodeLengthService.saveUserToDatabase(gu.createUser());
+        uclService.saveUserToDatabase(gu.createUser());
         return "codelength";
     }
 

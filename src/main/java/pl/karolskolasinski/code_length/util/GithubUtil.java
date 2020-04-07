@@ -180,7 +180,7 @@ public class GithubUtil {
     }
 
     public UserCodeLength createUser() {
-        return new UserCodeLength(username, km, language);
+        return new UserCodeLength(username, roundOff(), language);
     }
 
 }
