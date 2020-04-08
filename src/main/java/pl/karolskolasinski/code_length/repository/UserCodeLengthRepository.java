@@ -4,8 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserCodeLengthRepository extends CrudRepository<UserCodeLength, Integer> {
 
-    List<UserCodeLength> findFirst10ByOrderByLengthDesc();
+    Set<UserCodeLength> findFirst10ByOrderByLengthDesc();
 }

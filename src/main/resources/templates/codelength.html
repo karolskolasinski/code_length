@@ -30,9 +30,13 @@
 
                 <div class="row center">
                     <span th:text="${length}">
-
                     </span>
+                </div>
 
+                <div th:text="${language}"></div>
+
+                <div th:each="repo : ${repos}">
+                    <span th:text="${repo.toString()}"></span>
                 </div>
 
             </div>

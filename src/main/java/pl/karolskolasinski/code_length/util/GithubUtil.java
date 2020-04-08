@@ -12,13 +12,13 @@ import pl.karolskolasinski.code_length.model.UserRepos;
 import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GithubUtil {
@@ -29,7 +29,7 @@ public class GithubUtil {
     private Gson gson = gsonBuilder.create();
     private int publicRepos = -1;
     private double kilometersFromRepos = -1;
-    private String language;
+    private String userProfession;
     private Collection<UserRepos> userRepos = new ArrayList<>();
     private double km;
     private List<Integer> eachFileLength = new ArrayList<>();
@@ -57,8 +57,14 @@ public class GithubUtil {
             User user = gson.fromJson(sb.toString(), User.class);
             publicRepos = user.getPublicRepos();
         } catch (IOException e) {
-            publicRepos = -1;
-            e.printStackTrace();
+            if (e instanceof FileNotFoundException) {
+                publicRepos = -2;
+                System.err.println("User not found.");
+                e.printStackTrace();
+            } else {
+                publicRepos = -1;
+                e.printStackTrace();
+            }
         }
 
         return publicRepos;
@@ -94,10 +100,13 @@ public class GithubUtil {
      *
      */
     private double getKilometersFromRepos() {
-        userRepos.stream().map(UserRepos::getName).forEach(repoName -> {
-            String singleRepositoryURL = apiGithubURLBuilder.getSingleRepositoryURL(username, repoName);
-            addSingleRepoToList(singleRepositoryURL);
-        });
+        userRepos.stream()
+                .filter(userRepo -> !userRepo.isFork())
+                .map(UserRepos::getName)
+                .forEach(repoName -> {
+                    String singleRepositoryURL = apiGithubURLBuilder.getSingleRepositoryURL(username, repoName);
+                    addSingleRepoToList(singleRepositoryURL);
+                });
 
         return countKilometers();
     }
@@ -130,7 +139,6 @@ public class GithubUtil {
             singleRepo.getTree().forEach(this::searchForSupportedFiles);
         } catch (IOException e) {
             kilometersFromRepos = -1;
-            e.printStackTrace();
         }
     }
 
@@ -139,7 +147,7 @@ public class GithubUtil {
      */
     private void searchForSupportedFiles(Tree singleRepoTree) {
         String path = singleRepoTree.getPath();
-        supportedFiles.forEach(supportedFile -> checkIsSupported(singleRepoTree, path, supportedFile));
+        supportedFiles.forEach((supportedFile) -> checkIsSupported(singleRepoTree, path, supportedFile));
     }
 
     /**
@@ -175,15 +183,49 @@ public class GithubUtil {
      *
      */
     public UserCodeLength createUser() {
-        return new UserCodeLength(publicRepos, username, roundOff(), language);
+        return new UserCodeLength(publicRepos, username, roundOff(), userProfession);
     }
 
     /**
      *
      */
-    public String language(String username) {
+    public String userLanguage() {
+        userProfession = getLanguages()
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
+                .keySet()
+                .iterator()
+                .next();
 
-        return null;
+        return recognizeUserLanguage();
     }
 
+    private List<String> getLanguages() {
+        return userRepos.stream()
+                .map(UserRepos::getLanguage)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     */
+    private String recognizeUserLanguage() {
+        if (userProfession.isEmpty()) {
+            return "language not recognized";
+        } else if (userProfession.equals("HTML") || userProfession.equals("CSS")) {
+            return "Front-end Developer";
+        }
+
+        return userProfession;
+    }
+
+    /**
+     *
+     */
+    public List<String> reposNames() {
+        return userRepos.stream()
+                .map(UserRepos::getName)
+                .collect(Collectors.toList());
+    }
 }

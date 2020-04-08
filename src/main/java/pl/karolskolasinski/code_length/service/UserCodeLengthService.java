@@ -6,6 +6,7 @@ import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 import pl.karolskolasinski.code_length.repository.UserCodeLengthRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserCodeLengthService {
@@ -21,7 +22,7 @@ public class UserCodeLengthService {
         userCodeLengthRepository.save(userCodeLength);
     }
 
-    public List<UserCodeLength> top10() {
+    public Set<UserCodeLength> top10() {
         return userCodeLengthRepository.findFirst10ByOrderByLengthDesc();
     }
 

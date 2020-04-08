@@ -32,11 +32,19 @@ public class IndexController {
         GithubUtil gu = new GithubUtil();
 
         model.addAttribute("username", username);
-        model.addAttribute("numberOfRepos", gu.numberOfRepos(username));
-        model.addAttribute("length", gu.codeLengthMeter());
-        model.addAttribute("language", gu.language(username));
-        uclService.saveUserToDatabase(gu.createUser());
-        return "codelength";
+        int numberOfRepos = gu.numberOfRepos(username);
+
+        if (numberOfRepos == -2) {
+            model.addAttribute("errorMessage", "User not found.");
+            return "codelength";
+        } else {
+            model.addAttribute("numberOfRepos", numberOfRepos);
+            model.addAttribute("length", gu.codeLengthMeter());
+            model.addAttribute("language", gu.userLanguage());
+            model.addAttribute("repos", gu.reposNames());
+            uclService.saveUserToDatabase(gu.createUser());
+            return "codelength";
+        }
     }
 
 }
