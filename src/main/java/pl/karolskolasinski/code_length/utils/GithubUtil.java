@@ -1,4 +1,4 @@
-package pl.karolskolasinski.code_length.util;
+package pl.karolskolasinski.code_length.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,9 +34,9 @@ public class GithubUtil {
     private double km;
     private List<Integer> eachFileLength = new ArrayList<>();
     private List<String> supportedFiles = new ArrayList<>();
-    private static final double CHAR_LENGTH_IN_PIXEL = 7;
+    private static final double CHAR_LENGTH_IN_PIXELS = 7;
     private static final double PIXEL_IN_KILOMETER = 0.0000002645833;
-    private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXEL * PIXEL_IN_KILOMETER;
+    private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXELS * PIXEL_IN_KILOMETER;
 
     public GithubUtil() {
         supportedFiles.add(".java");
@@ -103,10 +103,8 @@ public class GithubUtil {
         userRepos.stream()
                 .filter(userRepo -> !userRepo.isFork())
                 .map(UserRepos::getName)
-                .forEach(repoName -> {
-                    String singleRepositoryURL = apiGithubURLBuilder.getSingleRepositoryURL(username, repoName);
-                    addSingleRepoToList(singleRepositoryURL);
-                });
+                .map(repoName -> apiGithubURLBuilder.getSingleRepositoryURL(username, repoName))
+                .forEach(this::addSingleRepoToList);
 
         return countKilometers();
     }
@@ -190,13 +188,17 @@ public class GithubUtil {
      *
      */
     public String userLanguage() {
-        userProfession = getLanguages()
+        Set<String> strings = getLanguages()
                 .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-                .keySet()
-                .iterator()
-                .next();
+                .keySet();
+
+        if (strings.size() == 0) {
+            return "language not recognized";
+        } else {
+            userProfession = strings.iterator().next();
+        }
 
         return recognizeUserLanguage();
     }
@@ -211,9 +213,7 @@ public class GithubUtil {
      *
      */
     private String recognizeUserLanguage() {
-        if (userProfession.isEmpty()) {
-            return "language not recognized";
-        } else if (userProfession.equals("HTML") || userProfession.equals("CSS")) {
+        if (userProfession.equals("HTML") || userProfession.equals("CSS")) {
             return "Front-end Developer";
         }
 

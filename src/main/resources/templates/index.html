@@ -30,8 +30,26 @@
             </div>
         </div>
 
+        <!--<div>-->
+            <!--World champion:-->
+            <!--<span th:text="${top10.get(0)}">-->
+            <!--</span>-->
+        <!--</div>-->
 
-        <div th:each="user : ${top10}" class="row">
+        <!--<div>-->
+            <!--Second:-->
+            <!--<span th:text="${top10.get(1)}"></span>-->
+        <!--</div>-->
+
+        <!--<div>-->
+            <!--Third:-->
+            <!--<span th:text="${top10.get(2)}"></span>-->
+        <!--</div>-->
+
+        <div th:each="user, iter : ${top10}" class="row">
+            <span th:text="${iter.first}"></span>
+            <span th:if="${iter.index == 1}">th:if</span>
+
             <span class="col-md-1 mt-2" th:text="${user.getUsername()}"></span> |
             <span class="col-md-1 mt-2" th:text="${user.getNumberOfRepos()}"></span> |
             <span class="col-md-2 mt-2" th:text="${user.getLength()}"></span> |

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
-import pl.karolskolasinski.code_length.util.GithubUtil;
+import pl.karolskolasinski.code_length.utils.GithubUtil;
 
 @Controller
 @RequestMapping(path = "/")
