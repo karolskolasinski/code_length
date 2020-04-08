@@ -145,16 +145,9 @@ public class GithubUtil {
      */
     private void searchForSupportedFiles(Tree singleRepoTree) {
         String path = singleRepoTree.getPath();
-        supportedFiles.forEach((supportedFile) -> checkIsSupported(singleRepoTree, path, supportedFile));
-    }
-
-    /**
-     *
-     */
-    private void checkIsSupported(Tree singleRepoTree, String path, String supportedFile) {
-        if (path.contains(supportedFile)) {
-            eachFileLength.add(singleRepoTree.getSize());
-        }
+        supportedFiles.stream()
+                .filter(path::contains)
+                .forEach(supportedFile -> eachFileLength.add(singleRepoTree.getSize()));
     }
 
     /**
@@ -188,33 +181,29 @@ public class GithubUtil {
      *
      */
     public String userLanguage() {
-        Set<String> strings = getLanguages()
+        Set<String> strings = userRepos.stream()
+                .map(UserRepos::getLanguage)
+                .collect(Collectors.toList())
                 .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
                 .keySet();
 
-        if (strings.size() == 0) {
-            return "language not recognized";
-        } else {
-            userProfession = strings.iterator().next();
-        }
-
-        return recognizeUserLanguage();
-    }
-
-    private List<String> getLanguages() {
-        return userRepos.stream()
-                .map(UserRepos::getLanguage)
-                .collect(Collectors.toList());
+        return recognizeUserLanguage(strings);
     }
 
     /**
-     *
+     * @param strings
      */
-    private String recognizeUserLanguage() {
+    private String recognizeUserLanguage(Set<String> strings) {
+        if (strings.size() == 0) {
+            return "language not recognized";
+        }
+
+        userProfession = strings.iterator().next();
+
         if (userProfession.equals("HTML") || userProfession.equals("CSS")) {
-            return "Front-end Developer";
+            return userProfession = "Front-end Developer";
         }
 
         return userProfession;
