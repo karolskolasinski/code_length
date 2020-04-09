@@ -18,7 +18,8 @@ public class UserCodeLengthService {
         this.userCodeLengthRepository = userCodeLengthRepository;
     }
 
-    public void saveUserToDatabase(UserCodeLength userCodeLength) {
+    public void saveUserToDatabase( String username, int numberOfPublicRepos, double length, String language) {
+        UserCodeLength userCodeLength = new UserCodeLength(username, numberOfPublicRepos, length, language);
         userCodeLengthRepository.save(userCodeLength);
     }
 

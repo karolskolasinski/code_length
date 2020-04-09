@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.karolskolasinski.code_length.model.UserRepos;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
-import pl.karolskolasinski.code_length.utils.GithubUtil;
+import pl.karolskolasinski.code_length.utils.CodeLengthUtil;
+import pl.karolskolasinski.code_length.utils.NumberOfReposUtil;
+import pl.karolskolasinski.code_length.utils.UserLanguageUtil;
+
+import java.util.Collection;
 
 @Controller
 @RequestMapping(path = "/")
@@ -29,22 +34,31 @@ public class IndexController {
 
     @PostMapping("/get")
     public String getInfo(Model model, @ModelAttribute("username") String username) {
-        GithubUtil gu = new GithubUtil();
+        NumberOfReposUtil numberOfReposUtil = new NumberOfReposUtil();
+        CodeLengthUtil codeLengthUtil = new CodeLengthUtil();
+        UserLanguageUtil userLanguageUtil = new UserLanguageUtil();
 
         model.addAttribute("username", username);
-        int numberOfRepos = gu.numberOfRepos(username);
+        int numberOfPublicRepos = numberOfReposUtil.getNumberOfPublicRepos(username);
 
-        if (numberOfRepos == -2) {
+        if (numberOfPublicRepos == -2) {
             model.addAttribute("errorMessage", "User not found.");
             return "codelength";
-        } else {
-            model.addAttribute("numberOfRepos", numberOfRepos);
-            model.addAttribute("length", gu.codeLengthMeter());
-            model.addAttribute("language", gu.userLanguage());
-            model.addAttribute("repos", gu.reposNames());
-            uclService.saveUserToDatabase(gu.createUser());
-            return "codelength";
         }
+
+        model.addAttribute("numberOfPublicRepos", numberOfPublicRepos);
+        double length = codeLengthUtil.codeLengthMeter(username, numberOfPublicRepos);
+
+        model.addAttribute("length", length);
+
+        Collection<UserRepos> userRepos = codeLengthUtil.getUserRepos();
+        String language = userLanguageUtil.userLanguage(userRepos);
+
+        model.addAttribute("language", language);
+        model.addAttribute("repos", userLanguageUtil.reposNames(userRepos));
+        uclService.saveUserToDatabase(username, numberOfPublicRepos, length, language);
+
+        return "codelength";
     }
 
 }
