@@ -9,13 +9,15 @@
     <title></title>
 
     <th:block th:fragment="link-styles">
-        <!--<link rel="stylesheet" th:href="@{/webjars/materialize-css/1.0.0/dist/css/materialize.css}"/>-->
-        <!--<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/css" media="all"/>-->
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.css}"/>
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
     </th:block>
 </head>
 
 <body>
 <th:block th:fragment="header">
+        <div class="container text-center">code length app</div>
 </th:block>
 
 <th:block th:fragment="footer">
@@ -24,7 +26,7 @@
     <footer class="page-footer  grey lighten-5">
         <div class="footer-copyright grey-text">
             <div class="container">
-                <span>© 2020-<script type="text/javascript" th:src="@{js/year.js}"></script>
+                <span>© 2020-<script type="text/javascript" th:src="@{/js/year.js}"></script>
                     created by:</span>
 
                 <span class="right">
@@ -44,7 +46,9 @@
 </th:block>
 
 <th:block th:fragment="scripts">
-    <!--<script type="text/javascript" th:src="@{/webjars/materialize-css/1.0.0/dist/js/materialize.js}"></script>-->
+    <script type="text/javascript" th:src="@{/webjars/popper.js/1.14.3/umd/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
 </th:block>
 
 </body>

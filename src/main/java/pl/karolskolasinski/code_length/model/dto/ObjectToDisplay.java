@@ -17,7 +17,7 @@ public class ObjectToDisplay {
     private final double length;
     private final String language;
     private final List<String> reposNames;
-    private Collection<UserRepos> userRepos;
+    private final Collection<UserRepos> userRepos;
 
     private NumberOfReposUtil numberOfReposUtil = new NumberOfReposUtil();
     private CodeLengthUtil codeLengthUtil = new CodeLengthUtil();

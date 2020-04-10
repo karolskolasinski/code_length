@@ -36,10 +36,18 @@ public class CodeLengthUtil {
      */
     public CodeLengthUtil() {
         supportedFiles.add(".java");
+        supportedFiles.add(".kt");
         supportedFiles.add(".html");
         supportedFiles.add(".css");
         supportedFiles.add(".js");
         supportedFiles.add(".php");
+        supportedFiles.add(".c");
+        supportedFiles.add(".cs");
+        supportedFiles.add(".cpp");
+        supportedFiles.add(".py");
+        supportedFiles.add(".rb");
+        supportedFiles.add(".ex");
+        supportedFiles.add(".go");
     }
 
     /**
