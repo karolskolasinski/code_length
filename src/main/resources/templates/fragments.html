@@ -12,37 +12,35 @@
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.css}"/>
         <link rel="stylesheet" th:href="@{/css/style.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Paytone+One&display=swap">
     </th:block>
 </head>
 
 <body>
 <th:block th:fragment="header">
-        <div class="container text-center">code length app</div>
+    <div class="container text-center text-title mt-5"><a href="/">code length app</a></div>
 </th:block>
 
 <th:block th:fragment="footer">
-    <br/>
+    <div class="pt-5"></div>
 
-    <footer class="page-footer  grey lighten-5">
-        <div class="footer-copyright grey-text">
-            <div class="container">
-                <span>© 2020-<script type="text/javascript" th:src="@{/js/year.js}"></script>
-                    created by:</span>
+    <hr>
 
-                <span class="right">
-                    <a class="black-text text-lighten-1"
-                       href="mailto:karolskolasinski@gmail.com?subject=Magic 8-ball&body=Awesome app!">Contact</a>
-                    <span> | </span>
-                    <span><a class="black-text text-lighten-1" href="https://www.linkedin.com/in/karolskolasinski/"
-                             target="_blank">About</a></span>
-                    <span> | </span>
-                    <a class="black-text text-lighten-1"
-                       href="https://github.com/karolskolasinski/code_length">Github</a>
-                </span>
+    <div class="container p-0 pt-5">
+        <div class="row">
+            <div class="col-12 text-center col-lg-8 text-lg-left">
+                © 2020 -
+                <script type="text/javascript" th:src="@{/js/year.js}"></script>
+                created by:
+            </div>
+
+            <div class="col-12 pt-3 text-center col-lg-4 text-lg-right pt-lg-0">
+                <a href="mailto:karolskolasinski@gmail.com?subject=code length app&body=Awesome app!">Contact</a> |
+                <a href="https://www.linkedin.com/in/karolskolasinski/" target="_blank">About</a> |
+                <a href="https://github.com/karolskolasinski/code_length">Github</a>
             </div>
         </div>
-    </footer>
-    <br/>
+    </div>
 </th:block>
 
 <th:block th:fragment="scripts">

@@ -1,19 +1,28 @@
 html {
     height: 100%;
 }
+
 body {
-    height: 100%;
+    height: auto;
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    color: #ECE4d6;
+}
+
+.text-title {
+    font-family: 'Paytone One', sans-serif;
+    font-size: 4.2rem;
+    text-shadow: -1px 7px 0 #af3319;
+}
+
+a, a:hover {
+    color: #ECE4d6;
+    text-decoration: none;
 }
 
 .bg-gradient {
     background-image: linear-gradient(to bottom, rgb(211, 94, 8), rgb(233, 104, 10));
-}
-
-.error-message {
-    color: #26a69a;
 }
 
 ::selection {
