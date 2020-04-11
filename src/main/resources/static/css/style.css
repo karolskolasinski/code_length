@@ -22,7 +22,7 @@ a, a:hover {
 }
 
 .bg-gradient {
-    background-image: linear-gradient(to bottom, rgb(211, 94, 8), rgb(233, 104, 10));
+    background-image: linear-gradient(to bottom, rgb(211, 94, 8), rgb(233, 124, 13));
 }
 
 ::selection {
