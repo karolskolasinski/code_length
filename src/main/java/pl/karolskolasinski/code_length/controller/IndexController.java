@@ -29,7 +29,7 @@ public class IndexController {
 
     @PostMapping("/get")
     public String getInfo(Model model, @ModelAttribute("username") String username) {
-        ObjectToDisplay objectToDisplay = new ObjectToDisplay(username);
+        ObjectToDisplay objectToDisplay = uclService.getUserDetails(username);
 
         model.addAttribute("username", username);
 

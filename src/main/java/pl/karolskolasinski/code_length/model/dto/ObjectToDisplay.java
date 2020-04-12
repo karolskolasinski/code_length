@@ -32,4 +32,12 @@ public class ObjectToDisplay {
         this.reposNames = userLanguageUtil.reposNames(userRepos);
     }
 
+    public ObjectToDisplay(String username, int numberOfPublicRepos, double length, String language, List<String> reposNames, Collection<UserRepos> userRepos) {
+        this.username = username;
+        this.numberOfPublicRepos = numberOfPublicRepos;
+        this.length = length;
+        this.language = language;
+        this.reposNames = reposNames;
+        this.userRepos = userRepos;
+    }
 }

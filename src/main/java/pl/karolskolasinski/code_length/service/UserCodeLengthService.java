@@ -32,4 +32,8 @@ public class UserCodeLengthService {
     public List<UserCodeLength> top10() {
         return new ArrayList<>(userCodeLengthRepository.findFirst10ByOrderByLengthDesc());
     }
+
+    public ObjectToDisplay getUserDetails(String username) {
+        return new ObjectToDisplay(username);
+    }
 }
