@@ -18,7 +18,9 @@ public class NumberOfReposUtil {
     private Gson gson = gsonBuilder.create();
 
     /**
+     * Returns number of user public repos. Reads JSON from user profile URL, parses to User object.
      *
+     * @param username: provided username in input form.
      */
     public int getNumberOfPublicRepos(String username) {
         int numberOfPublicRepos;

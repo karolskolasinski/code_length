@@ -24,17 +24,18 @@ public class CodeLengthUtil {
     private Gson gson = gsonBuilder.create();
     private double kilometersFromRepos = -1;
     private double km;
-    private List<Integer> eachFileLength = new ArrayList<>();
-    private List<String> supportedFiles = new ArrayList<>();
+    private List<Integer> eachFileSize = new ArrayList<>();
+    private List<String> supportedFiles;
     private Collection<UserRepos> userRepos = new ArrayList<>();
     private static final double CHAR_LENGTH_IN_PIXELS = 7;
     private static final double PIXEL_IN_KILOMETER = 0.0000002645833;
     private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXELS * PIXEL_IN_KILOMETER;
 
     /**
-     *
+     * Initializing and filling the list of supported files with the extensions the program is looking for
      */
     public CodeLengthUtil() {
+        supportedFiles = new ArrayList<>();
         supportedFiles.add(".java");
         supportedFiles.add(".kt");
         supportedFiles.add(".html");
@@ -51,7 +52,10 @@ public class CodeLengthUtil {
     }
 
     /**
+     * Returns kilometers of user code. Reads JSON from every page of user repos, parses to collection of UserRepos (loop by number of pages).
      *
+     * @param username:            provided username in input form.
+     * @param numberOfPublicRepos: number of user public repos (given by getNumberOfPublicRepos(String username) from NumberOfReposUtil class).
      */
     public double codeLengthMeter(String username, int numberOfPublicRepos) {
         this.username = username;
@@ -79,7 +83,7 @@ public class CodeLengthUtil {
     }
 
     /**
-     *
+     * Calculates the number of pages from the number of public user repositories.
      */
     private int getNumberOfPages() {
         double pages = (double) numberOfPublicRepos / 30;
@@ -90,7 +94,7 @@ public class CodeLengthUtil {
     }
 
     /**
-     *
+     * Returns kilometers of user code. Get URL for each non forked repository.
      */
     private double getKilometersFromRepos() {
         userRepos.stream()
@@ -103,22 +107,24 @@ public class CodeLengthUtil {
     }
 
     /**
-     *
+     * Calculates kilometers of user code by multiplying each file size by MULTIPLIER.
      */
     private double countKilometers() {
-        eachFileLength.forEach(length -> km += length * MULTIPLIER);
+        eachFileSize.forEach(length -> km += length * MULTIPLIER);
         return roundOff();
     }
 
     /**
-     *
+     * Rounds the product of the kilometer of the code.
      */
     private double roundOff() {
         return Math.round(km * 100.0) / 100.0;
     }
 
     /**
+     * Reads JSON from every single user repo, parses to SingleRepo object.
      *
+     * @param singleRepositoryURL: URL of single repo built based on each repoName from the userRepos list.
      */
     private void addSingleRepoToList(String singleRepositoryURL) {
         try {
@@ -134,13 +140,15 @@ public class CodeLengthUtil {
     }
 
     /**
+     * Adds the file size to the list if the file extension is in the list of supported files.
      *
+     * @param singleRepoTree: Tree object from SingleRepo.
      */
     private void searchForSupportedFiles(Tree singleRepoTree) {
         String path = singleRepoTree.getPath();
         supportedFiles.stream()
                 .filter(path::contains)
-                .forEach(supportedFile -> eachFileLength.add(singleRepoTree.getSize()));
+                .forEach(supportedFile -> eachFileSize.add(singleRepoTree.getSize()));
     }
 
     public Collection<UserRepos> getUserRepos() {

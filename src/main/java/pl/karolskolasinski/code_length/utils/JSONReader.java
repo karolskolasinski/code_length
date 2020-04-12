@@ -8,7 +8,10 @@ import java.net.URL;
 class JSONReader {
 
     /**
+     * Reads the page content and appends to the builder.
      *
+     * @param sb:         new instance of StringBuilder.
+     * @param URLAddress: URL for read by InputStreamReader.
      */
     void readJSONFromURLByStringBuilder(StringBuilder sb, String URLAddress) throws IOException {
         URL url = new URL(URLAddress);

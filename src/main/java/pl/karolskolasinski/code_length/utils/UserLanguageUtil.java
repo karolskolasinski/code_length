@@ -11,10 +11,12 @@ import java.util.stream.Collectors;
 public class UserLanguageUtil {
 
     /**
-     * @param userRepos
+     * Collecting each language for the list and calculating the most common.
+     *
+     * @param userRepos: list of UserRepos (given by getUserRepos() from CodeLengthUtil class).
      */
     public String userLanguage(Collection<UserRepos> userRepos) {
-        Set<String> strings = userRepos.stream()
+        Set<String> languages = userRepos.stream()
                 .map(UserRepos::getLanguage)
                 .collect(Collectors.toList())
                 .stream()
@@ -22,28 +24,32 @@ public class UserLanguageUtil {
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
                 .keySet();
 
-        return recognizeUserLanguage(strings);
+        return recognizeUserLanguage(languages);
     }
 
     /**
-     * @param strings
+     * Returns the user's language. If the language list size is 0, then the language is not recognized.
+     *
+     * @param languages: collection of languages.
      */
-    private String recognizeUserLanguage(Set<String> strings) {
-        if (strings.size() == 0) {
+    private String recognizeUserLanguage(Set<String> languages) {
+        if (languages.size() == 0) {
             return "language not recognized";
         }
 
-        String userProfession = strings.iterator().next();
+        String userLanguage = languages.iterator().next();
 
-        if (userProfession.equals("HTML") || userProfession.equals("CSS")) {
+        if (userLanguage.equals("HTML") || userLanguage.equals("CSS")) {
             return "Front-end developer";
         }
 
-        return userProfession;
+        return userLanguage;
     }
 
     /**
-     * @param userRepos
+     * Returns the full list of user public repositories names (forked included).
+     *
+     * @param userRepos: list of UserRepos (given by getUserRepos() from CodeLengthUtil class).
      */
     public List<String> reposNames(Collection<UserRepos> userRepos) {
         return userRepos.stream()
