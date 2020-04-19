@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
     <th:block th:replace="fragments :: meta" th:remove="tag"/>
     <title>code length app</title>
     <th:block th:replace="fragments :: link-styles" th:remove="tag"/>
@@ -17,8 +16,8 @@
         <div class="col-10 p-0">
             <form class="" th:action="@{/get}" th:method="post">
                 <input class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2" th:name="username" id="username"
-                       type="text" minlength="1"
-                       placeholder="your github username" required title="1 character minimum">
+                       type="text" minlength="1" placeholder="your github username"
+                       required title="1 character minimum">
             </form>
         </div>
     </div>
