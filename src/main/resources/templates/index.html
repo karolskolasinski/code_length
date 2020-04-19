@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 col-md-6 col-lg-5 col-xl-4">
         <div th:each="user, iter : ${top10}">
             <div class="row">
                 <div class="col-12 pb-0 world-records-font" th:if="${iter.first}">World records
@@ -72,6 +72,62 @@
             </div>
 
             <hr>
+        </div>
+
+        <div class="text-center pt-4">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                How we count kilometers?
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title input-font" id="exampleModalCenterTitle">How we count kilometers</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body modal-font text-left">
+                            In simple terms:
+                            <ol>
+                                <li>we scan all your public repositories</li>
+                                <li>we scan every file in the repository, checking if it is on the list of supported
+                                    files such as:
+                                    <ul>
+                                        <li>.java</li>
+                                        <li>.kt</li>
+                                        <li>.html</li>
+                                        <li>.css</li>
+                                        <li>.js</li>
+                                        <li>.php</li>
+                                        <li>.c</li>
+                                        <li>.cs</li>
+                                        <li>.cpp</li>
+                                        <li>.py</li>
+                                        <li>.rb</li>
+                                        <li>.ex</li>
+                                        <li>.go</li>
+                                    </ul>
+                                </li>
+                                <li>if the file is supported, we check its size</li>
+                                <li>for simplicity, we assume that each byte corresponds to one character</li>
+                                <li>we count the code length according to the formula: 1 character = 7 pixels =
+                                    0.185206 cm
+                                </li>
+                                <li>we are glad that you used the application :)</li>
+                            </ol>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </main>

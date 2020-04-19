@@ -111,6 +111,11 @@ a, a:hover {
     color: white;
 }
 
+.modal-font {
+    font-weight: normal;
+    color: #505050;
+}
+
 /*------------Medium ≥768px------------*/
 @media (min-width: 768px) {
 
