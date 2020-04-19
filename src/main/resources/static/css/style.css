@@ -29,10 +29,48 @@ a, a:hover {
     background: #787878;
 }
 
+::-webkit-input-placeholder { /* Edge */
+    color: #e1e1e1;
+}
+
+:-ms-input-placeholder { /* Internet Explorer */
+    color: #e1e1e1;
+}
+
+::placeholder {
+    color: #e1e1e1;
+}
+
+.outline-none {
+    outline: 0;
+}
+
+.search-font {
+    font-size: 3vh;
+    color: rgb(233, 124, 13);
+}
+
+.input-font {
+    caret-color: rgb(233, 124, 13);
+    font-weight: 800;
+    color: #505050;
+}
+
+
 /*------------Medium ≥768px------------*/
 @media (min-width: 768px) {
 
     .text-title {
         font-size: 4.2rem;
     }
+
+    .search-font {
+        font-size: 5vh;
+    }
+
+    .input-font {
+        font-size: 5vh;
+    }
+
 }
+
