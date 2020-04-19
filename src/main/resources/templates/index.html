@@ -23,37 +23,56 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mt-5">
+        <div th:each="user, iter : ${top10}">
+            <div class="row">
+                <div class="col-12 pb-0 world-records-font" th:if="${iter.first}">World records
+                    <hr>
+                </div>
+            </div>
 
-        <!--<div>-->
-        <!--World champion:-->
-        <!--<span th:text="${top10.get(0)}">-->
-        <!--</span>-->
-        <!--</div>-->
+            <div class="col-12">
+                <!--1st-->
+                <span class="first-place-font" th:text="${'🥇' + user.getUsername()}" th:if="${iter.first}"></span>
+                <span class="text-left first-place-font-km"
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.first}"></span>
 
-        <!--<div>-->
-        <!--Second:-->
-        <!--<span th:text="${top10.get(1)}"></span>-->
-        <!--</div>-->
+                <!--2nd-->
+                <span class="second-place-font" th:text="${'🥈' + user.getUsername()}"
+                      th:if="${iter.index == 1}"></span>
+                <span class="text-left second-place-font-km"
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index == 1}"></span>
 
-        <!--<div>-->
-        <!--Third:-->
-        <!--<span th:text="${top10.get(2)}"></span>-->
-        <!--</div>-->
+                <!--3rd-->
+                <span class="third-place-font" th:text="${'🥉' + user.getUsername()}" th:if="${iter.index == 2}"></span>
+                <span class="text-left third-place-font third-place-font-km"
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index == 2}"></span>
 
-        <div th:each="user, iter : ${top10}" class="row">
-            <span th:text="${iter.first}"></span>
-            <span th:if="${iter.index == 1}">th:if</span>
+                <!--other-->
+                <span class="other-place-font" th:text="${user.getUsername()}" th:if="${iter.index > 2}"></span>
+                <span class="text-left other-place-font"
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index > 2}"></span>
+            </div>
 
-            <span class="col-md-1 mt-2" th:text="${user.getUsername()}"></span> |
-            <span class="col-md-1 mt-2" th:text="${user.getNumberOfRepos()}"></span> |
-            <span class="col-md-2 mt-2" th:text="${user.getLength()}"></span> |
-            <span class="col-md-3 mt-2" th:text="${user.getLanguage()}"></span> |
-            <span class="col-md-3 mt-2"
-                  th:text="${#temporals.format(user.getLocalDateTime(), 'dd-MM-yyyy HH:mm')}"></span>
+            <div class="col-12 data-font">
+                <!--repos-->
+                <span class="" th:text="${user.getNumberOfRepos()} + '&nbsp;' + repository + '&nbsp;|'"
+                      th:if="${user.getNumberOfRepos() == 1}"></span>
+                <span class="" th:text="${user.getNumberOfRepos()} + '&nbsp;' + repositories + '&nbsp;|'"
+                      th:if="${user.getNumberOfRepos() > 1}"></span>
+
+                <!--language-->
+                <span class="" th:text="${user.getLanguage()} + '&nbsp;|'"
+                      th:if="${user.getLanguage().equals('language not recognized')}"></span>
+                <span class="" th:text="${user.getLanguage()} + '&nbsp;' + developer + '&nbsp;|'"
+                      th:if="${!user.getLanguage().equals('language not recognized')}"></span>
+
+                <!--date-->
+                <span class="" th:text="${#temporals.format(user.getLocalDateTime(), 'dd-MM-yyyy HH:mm')}"></span>
+            </div>
+
+            <hr>
         </div>
-
-
     </div>
 </main>
 

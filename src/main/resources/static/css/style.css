@@ -46,7 +46,7 @@ a, a:hover {
 }
 
 .search-font {
-    font-size: 3vh;
+    font-size: 6vw;
     color: rgb(233, 124, 13);
 }
 
@@ -56,6 +56,60 @@ a, a:hover {
     color: #505050;
 }
 
+.world-records-font {
+    color: #ECE4d6;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.first-place-font {
+    color: #FFDF00;
+    font-weight: bolder;
+    font-size: 1.4rem;
+}
+
+.first-place-font-km {
+    font-size: 1.4rem;
+    font-weight: bolder;
+    color: #fff;
+}
+
+.second-place-font {
+    color: #D3D3D3;
+    font-weight: bolder;
+    font-size: 1.3rem;
+}
+
+
+.second-place-font-km {
+    font-size: 1.3rem;
+    font-weight: bolder;
+    color: #fff;
+}
+
+.third-place-font {
+    color: #a70000;
+    font-weight: bolder;
+    font-size: 1.1rem;
+}
+
+.third-place-font-km {
+    font-size: 1.1rem;
+    font-weight: bolder;
+    color: #fff;
+}
+
+.other-place-font {
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+}
+
+.data-font {
+    font-size: small;
+    font-weight: 100;
+    color: white;
+}
 
 /*------------Medium ≥768px------------*/
 @media (min-width: 768px) {
@@ -65,11 +119,11 @@ a, a:hover {
     }
 
     .search-font {
-        font-size: 5vh;
+        font-size: 2.5rem;
     }
 
     .input-font {
-        font-size: 5vh;
+        font-size: 2.5rem;
     }
 
 }

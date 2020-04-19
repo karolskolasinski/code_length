@@ -40,7 +40,7 @@ public class UserLanguageUtil {
         String userLanguage = languages.iterator().next();
 
         if (userLanguage.equals("HTML") || userLanguage.equals("CSS")) {
-            return "Front-end developer";
+            return "Front-end";
         }
 
         return userLanguage;
