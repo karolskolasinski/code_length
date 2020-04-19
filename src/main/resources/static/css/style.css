@@ -12,7 +12,7 @@ body {
 
 .text-title {
     font-family: 'Paytone One', sans-serif;
-    font-size: 4.2rem;
+    font-size: 2.8rem;
     text-shadow: -1px 7px 0 #af3319;
 }
 
@@ -26,6 +26,13 @@ a, a:hover {
 }
 
 ::selection {
-    background: transparent;
-    text-shadow: #000 0 0 2px;
+    background: #787878;
+}
+
+/*------------Medium ≥768px------------*/
+@media (min-width: 768px) {
+
+    .text-title {
+        font-size: 4.2rem;
+    }
 }
