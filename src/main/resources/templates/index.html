@@ -44,34 +44,34 @@
     </div>
 
     <div class="container mt-5 col-md-6 col-lg-5 col-xl-4">
-        <div th:each="user, iter : ${top10}">
+        <div th:each="user, index : ${top10}">
             <div class="row">
-                <div class="col-12 pb-0 world-records-font" th:if="${iter.first}">World records
+                <div class="col-12 pb-0 world-records-font" th:if="${index.first}">World records
                     <hr>
                 </div>
             </div>
 
             <div class="col-12">
                 <!--1st-->
-                <span class="first-place-font" th:text="${'🥇' + user.getUsername()}" th:if="${iter.first}"></span>
+                <span class="first-place-font" th:text="${user.getUsername()}" th:if="${index.first}"></span>
                 <span class="text-left first-place-font-km"
-                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.first}"></span>
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${index.first}"></span>
 
                 <!--2nd-->
-                <span class="second-place-font" th:text="${'🥈' + user.getUsername()}"
-                      th:if="${iter.index == 1}"></span>
+                <span class="second-place-font" th:text="${user.getUsername()}"
+                      th:if="${index.index == 1}"></span>
                 <span class="text-left second-place-font-km"
-                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index == 1}"></span>
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${index.index == 1}"></span>
 
                 <!--3rd-->
-                <span class="third-place-font" th:text="${'🥉' + user.getUsername()}" th:if="${iter.index == 2}"></span>
+                <span class="third-place-font" th:text="${user.getUsername()}" th:if="${index.index == 2}"></span>
                 <span class="text-left third-place-font third-place-font-km"
-                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index == 2}"></span>
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${index.index == 2}"></span>
 
                 <!--other-->
-                <span class="other-place-font" th:text="${user.getUsername()}" th:if="${iter.index > 2}"></span>
+                <span class="other-place-font" th:text="${user.getUsername()}" th:if="${index.index > 2}"></span>
                 <span class="text-left other-place-font"
-                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${iter.index > 2}"></span>
+                      th:text="${'&nbsp;' + user.getLength() + ' '} + km" th:if="${index.index > 2}"></span>
             </div>
 
             <div class="col-12 data-font">

@@ -5,42 +5,50 @@
     <title>code length app</title>
     <th:block th:replace="fragments :: link-styles" th:remove="tag"/>
 </head>
-<body>
+<body class="bg-gradient">
 <th:block th:replace="fragments :: header" th:remove="tag"/>
 
 <main>
-    <div class="container">
-        <h3 class="center"><a href="/" class="black-text">github</a></h3>
+    <div class="container col-md-9 col-lg-7 col-xl-6">
+        <div class="row">
+            <div class="col-12 result-font text-center">Success!</div>
 
-        <div class="row center-align">
-            <div class="col s6 m6 offset-s3 offset-m3">
-
-                <div class="input-field">
-                        <span th:text="${username}">
-
-                        </span>
-                </div>
-
-                <div class="input-field">
-                        <span th:text="${numberOfPublicRepos}">
-
-                        </span>
-                </div>
-
-                <div class="row center">
-                    <span th:text="${length}">
-                    </span>
-                </div>
-
-                <div th:text="${language}"></div>
-
-                <div th:each="repo : ${repos}">
-                    <span th:text="${repo.toString()}"></span>
-                </div>
-
+            <div class="col-12 result-font-sub text-center">
+                <span class="result-font-user" th:text="${username}"></span>
+                <br>
+                we just took measurements of your code:
             </div>
         </div>
 
+        <div class="row justify-content-center">
+            <div class="result-font-list pt-4">
+                <ul>
+                    <li>You have
+                        <span class="result-font-special" th:text="${numberOfPublicRepos}"></span>
+                        <span th:if="${numberOfPublicRepos == 1}" th:text="repository"></span>
+                        <span th:if="${numberOfPublicRepos > 1}" th:text="repositories"></span>
+                    </li>
+
+                    <li>Your code has
+                        <span class="result-font-special" th:text="${length}"></span> kilometers length
+                    </li>
+
+                    <li> you are a
+                        <span class="result-font-special" th:text="${language}"></span> developer.
+                    </li>
+
+                    <li>list of your public repositories:
+                        <ul th:each="repo : ${repos}">
+                            <li class="result-font-special" th:text="${repo.toString()}"></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 result-font-sub pt-4 text-center">That's all we know. We are so proud...</div>
+        </div>
     </div>
 </main>
 

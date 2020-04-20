@@ -116,6 +116,34 @@ a, a:hover {
     color: #505050;
 }
 
+.result-font {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+.result-font-sub {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+}
+
+.result-font-list {
+    font-size: 1rem;
+    font-weight: normal;
+    color: white;
+}
+
+.result-font-user {
+    font-size: 2rem;
+    font-weight: 800;
+    color: black;
+}
+
+.result-font-special {
+    color: black;
+}
+
 /*------------Medium ≥768px------------*/
 @media (min-width: 768px) {
 
