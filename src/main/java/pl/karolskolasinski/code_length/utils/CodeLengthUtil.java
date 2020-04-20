@@ -32,7 +32,7 @@ public class CodeLengthUtil {
     private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXELS * PIXEL_IN_KILOMETER;
 
     /**
-     * Initializing and filling the list of supported files with the extensions the program is looking for
+     * Initializing and filling the list of supported files with the extensions the program is looking for.
      */
     public CodeLengthUtil() {
         supportedFiles = new ArrayList<>();

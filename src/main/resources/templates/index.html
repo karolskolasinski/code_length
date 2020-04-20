@@ -9,6 +9,27 @@
 <th:block th:replace="fragments :: header" th:remove="tag"/>
 
 <main>
+    <!--error modal-->
+    <div class="modal fade" id="errorModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="errorModalTitle" aria-hidden="true" th:if="${errorMessage != null}">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title input-font" id="errorModalTitle">Error!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-font text-left">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="form-inline bg-white align-items-baseline search-font">
         <div class="col-2 text-right align-text-bottom p-0">
             <i class="fas fa-search"></i>
@@ -16,7 +37,7 @@
         <div class="col-10 p-0">
             <form class="" th:action="@{/get}" th:method="post">
                 <input class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2" th:name="username" id="username"
-                       type="text" minlength="1" placeholder="your github username"
+                       type="text" min="1" placeholder="your github username"
                        required title="1 character minimum">
             </form>
         </div>
@@ -74,18 +95,18 @@
         </div>
 
         <div class="text-center pt-4">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+            <!--button trigger explain modal-->
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#explainModalCenter">
                 How we count kilometers?
             </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <!--explain modal-->
+            <div class="modal fade" id="explainModalCenter" tabindex="-1" role="dialog"
+                 aria-labelledby="explainModalTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title input-font" id="exampleModalCenterTitle">How we count kilometers</h5>
+                            <h5 class="modal-title input-font" id="explainModalTitle">How we count kilometers</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -130,6 +151,7 @@
         </div>
     </div>
 </main>
+
 
 <div class="container">
     <th:block th:replace="fragments :: footer" th:remove="tag"/>

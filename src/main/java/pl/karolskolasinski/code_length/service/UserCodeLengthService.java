@@ -36,4 +36,11 @@ public class UserCodeLengthService {
     public ObjectToDisplay getUserDetails(String username) {
         return new ObjectToDisplay(username);
     }
+
+    /**
+     * Regex for only letters and numbers
+     */
+    public boolean isUsernameCorrect(String username) {
+        return username.matches("^[a-zA-Z0-9]+$");
+    }
 }

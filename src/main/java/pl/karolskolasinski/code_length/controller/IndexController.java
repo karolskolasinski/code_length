@@ -29,22 +29,24 @@ public class IndexController {
 
     @PostMapping("/get")
     public String getInfo(Model model, @ModelAttribute("username") String username) {
-        ObjectToDisplay objectToDisplay = uclService.getUserDetails(username);
+        if (!uclService.isUsernameCorrect(username)) {
+            model.addAttribute("errorMessage", "You need to enter a username.");
+            return "index";
+        }
 
+        ObjectToDisplay objectToDisplay = uclService.getUserDetails(username);
         model.addAttribute("username", username);
 
         if (objectToDisplay.getNumberOfPublicRepos() == -2) {
             model.addAttribute("errorMessage", "User not found.");
-            return "codelength";
+            return "index";
         }
 
         model.addAttribute("numberOfPublicRepos", objectToDisplay.getNumberOfPublicRepos());
         model.addAttribute("length", objectToDisplay.getLength());
         model.addAttribute("language", objectToDisplay.getLanguage());
         model.addAttribute("repos", objectToDisplay.getReposNames());
-
         uclService.saveUserToDatabase(objectToDisplay);
-
         return "codelength";
     }
 
