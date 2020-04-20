@@ -40,7 +40,7 @@ public class UserCodeLengthService {
     /**
      * Regex for only letters and numbers
      */
-    public boolean isUsernameCorrect(String username) {
-        return username.matches("^[a-zA-Z0-9]+$");
+    public boolean incorrectUsername(String username) {
+        return !username.matches("^[a-zA-Z0-9]+$");
     }
 }

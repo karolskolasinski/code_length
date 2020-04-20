@@ -16,6 +16,7 @@ import pl.karolskolasinski.code_length.model.UserRepos;
 import pl.karolskolasinski.code_length.model.dto.ObjectToDisplay;
 import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
+import pl.karolskolasinski.code_length.utils.NumberOfReposUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,12 +34,15 @@ class IndexControllerTest {
     @Mock
     private UserCodeLengthService uclService;
 
+    @Mock
+    private NumberOfReposUtil numberOfReposUtil;
+
     private MockMvc mockMvc;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.initMocks(this);
-        IndexController indexController = new IndexController(uclService);
+        IndexController indexController = new IndexController(uclService, numberOfReposUtil);
         mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
     }
 
@@ -89,8 +93,8 @@ class IndexControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .flashAttr("username", username))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("errorMessage", "User not found."))
-                .andExpect(view().name("codelength"));
+                .andExpect(model().attribute("errorMessage", "User not found.")) //todo display
+                .andExpect(view().name("codelength")); //todo index
     }
 
     @Test
