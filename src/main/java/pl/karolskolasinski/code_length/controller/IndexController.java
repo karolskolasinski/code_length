@@ -30,6 +30,7 @@ public class IndexController {
     @PostMapping("/get")
     public String getInfo(Model model, @ModelAttribute("username") String username) {
         if (!uclService.isUsernameCorrect(username)) {
+            model.addAttribute("top10", uclService.top10());
             model.addAttribute("errorMessage", "You need to enter a username.");
             return "index";
         }
@@ -38,6 +39,7 @@ public class IndexController {
         model.addAttribute("username", username);
 
         if (objectToDisplay.getNumberOfPublicRepos() == -2) {
+            model.addAttribute("top10", uclService.top10());
             model.addAttribute("errorMessage", "User not found.");
             return "index";
         }
