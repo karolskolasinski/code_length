@@ -11,6 +11,8 @@ import pl.karolskolasinski.code_length.model.dto.ObjectToDisplay;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
 import pl.karolskolasinski.code_length.utils.NumberOfReposUtil;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping(path = "/")
 public class IndexController {
@@ -43,7 +45,7 @@ public class IndexController {
         model.addAttribute("language", objectToDisplay.getLanguage());
         model.addAttribute("repos", objectToDisplay.getReposNames());
         uclService.saveUserToDatabase(objectToDisplay);
-        return "codelength";
+        return "result";
     }
 
     private String onError(Model model, String errorMessage) {
@@ -52,4 +54,9 @@ public class IndexController {
         return "index";
     }
 
+    @PostMapping("/auth")
+    public String authenticated(Model model, String username) {
+        System.err.println(username);
+        return getInfo(model,username);
+    }
 }
