@@ -3,15 +3,10 @@ package pl.karolskolasinski.code_length.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.karolskolasinski.code_length.model.dto.ObjectToDisplay;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
 import pl.karolskolasinski.code_length.utils.NumberOfReposUtil;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping(path = "/")
@@ -32,7 +27,7 @@ public class IndexController {
         return "index";
     }
 
-    @PostMapping("/get")
+    @PostMapping(value = "/get")
     public String getInfo(Model model, @ModelAttribute("username") String username) {
         if (uclService.incorrectUsername(username)) return onError(model, "You need to enter a username.");
         if (numberOfReposUtil.getNumberOfPublicRepos(username) == -2) return onError(model, "User not found.");
@@ -52,11 +47,5 @@ public class IndexController {
         model.addAttribute("top10", uclService.top10());
         model.addAttribute("errorMessage", errorMessage);
         return "index";
-    }
-
-    @PostMapping("/auth")
-    public String authenticated(Model model, String username) {
-        System.err.println(username);
-        return getInfo(model,username);
     }
 }
