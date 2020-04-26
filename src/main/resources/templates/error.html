@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments :: meta" th:remove="tag"/>
+    <title>code length app</title>
+    <th:block th:replace="fragments :: link-styles" th:remove="tag"/>
+</head>
+<body class="bg-gradient">
+<th:block th:replace="fragments :: header" th:remove="tag"/>
+
+<main>
+    <div class="container col-md-9 col-lg-7 col-xl-6">
+        <div class="row">
+            <div class="col-12 result-font text-center">Ooops! Page not found!</div>
+            <div class="col-12 result-font-sub text-center">
+                <br>
+                It looks like you lost...
+                <br>
+                Error code: 404
+            </div>
+        </div>
+
+
+        <div class="text-center pt-5">
+            <!--button trigger explain modal-->
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#explainModalCenter">
+                Home
+            </button>
+        </div>
+    </div>
+</main>
+
+<div class="container">
+    <th:block th:replace="fragments :: footer" th:remove="tag"/>
+    <th:block th:replace="fragments :: scripts" th:remove="tag"/>
+</div>
+
+</body>
+</html>
