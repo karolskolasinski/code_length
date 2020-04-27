@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -15,6 +16,7 @@ import pl.karolskolasinski.code_length.controller.IndexController;
 import pl.karolskolasinski.code_length.model.UserRepos;
 import pl.karolskolasinski.code_length.model.dto.ObjectToDisplay;
 import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
+import pl.karolskolasinski.code_length.repository.UserCodeLengthRepository;
 import pl.karolskolasinski.code_length.service.UserCodeLengthService;
 import pl.karolskolasinski.code_length.utils.NumberOfReposUtil;
 
@@ -36,6 +38,9 @@ class IndexControllerTest {
 
     @Mock
     private NumberOfReposUtil numberOfReposUtil;
+
+    @Mock
+    private UserCodeLengthRepository userCodeLengthRepository;
 
     private MockMvc mockMvc;
 
@@ -72,20 +77,52 @@ class IndexControllerTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("incorrectNames")
+    @DisplayName("should return an error message when the username is incorrect")
+    void index_shouldReturnAnErrorMessageWhenTheUsernameIsIncorrect(String name) throws Exception {
+        //given
+        UserCodeLengthService userCodeLengthService = new UserCodeLengthService(userCodeLengthRepository);
+
+        //when
+        when(uclService.incorrectUsername(name)).thenReturn(userCodeLengthService.incorrectUsername(name));
+
+        //then
+        mockMvc.perform(post("/get")
+                .param("username", name)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .flashAttr("username", name))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("errorMessage", "You need to enter a username."))
+                .andExpect(view().name("index"));
+    }
+
+
+    private static Stream<Arguments> incorrectNames() {
+        return Stream.of(
+                Arguments.of(""),
+                Arguments.of(" "),
+                Arguments.of("aaa bbb"),
+                Arguments.of("aaa%"),
+                Arguments.of("#aaa"),
+                Arguments.of("aaa@aaa"),
+                Arguments.of("aaa@aaa.aa"),
+                Arguments.of("aaa.aa"),
+                Arguments.of("aaa "),
+                Arguments.of("aaa #")
+        );
+    }
+
     @Test
     @DisplayName("should return an error message when the user is not found")
     void index_shouldReturnAnErrorMessageWhenTheUserHasNoPublicRepositories() throws Exception {
         //given
         String username = "givenUser";
-        int numberOfPublicRepos = -2;
-        double length = 10.0;
-        String language = "PHP";
-        List<String> reposNames = new ArrayList<>();
-        Collection<UserRepos> userRepos = new ArrayList<>();
-        ObjectToDisplay userToTest = new ObjectToDisplay(username, numberOfPublicRepos, length, language, reposNames, userRepos);
+        ObjectToDisplay userToTest = new ObjectToDisplay(username, -2, 10.0, "PHP", new ArrayList<>(), new ArrayList<>());
 
         //when
         when(uclService.getUserDetails(username)).thenReturn(userToTest);
+        when(numberOfReposUtil.getNumberOfPublicRepos(username)).thenReturn(userToTest.getNumberOfPublicRepos());
 
         //then
         mockMvc.perform(post("/get")
@@ -93,8 +130,8 @@ class IndexControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .flashAttr("username", username))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("errorMessage", "User not found.")) //todo display
-                .andExpect(view().name("codelength")); //todo index
+                .andExpect(model().attribute("errorMessage", "User not found."))
+                .andExpect(view().name("index"));
     }
 
     @Test
@@ -123,6 +160,6 @@ class IndexControllerTest {
                 .andExpect(model().attribute("length", length))
                 .andExpect(model().attribute("language", language))
                 .andExpect(model().attribute("repos", reposNames))
-                .andExpect(view().name("codelength"));
+                .andExpect(view().name("result"));
     }
 }
