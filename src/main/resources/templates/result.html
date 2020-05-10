@@ -60,7 +60,12 @@
                 <span class="result-font-user" th:text="${username}"></span>
                 <br>
                 Something went wrong! Your code is probably too long to measure using the free Github API rate limit.
-                You can try again after some time (~2 hours).
+                You can try again after some time (~2 hours), or authenticate yourself.
+            </div>
+            <div class="col-12 text-center pt-4">
+                <a th:href="@{'/authenticate'}" class="btn btn-dark" role="button" aria-pressed="true">
+                    Login with GitHub
+                </a>
             </div>
         </div>
 

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.karolskolasinski.code_length.controller.IndexController;
@@ -41,6 +41,9 @@ class IndexControllerTest {
 
     @Mock
     private UserCodeLengthRepository userCodeLengthRepository;
+
+    @Mock
+    private BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails;
 
     private MockMvc mockMvc;
 
