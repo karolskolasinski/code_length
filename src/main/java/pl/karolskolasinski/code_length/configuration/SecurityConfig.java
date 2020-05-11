@@ -12,20 +12,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http/*.csrf()
+                .disable()*/
                 .authorizeRequests()
                 .antMatchers("/",
+                        "/get",
                         "/css/**",
                         "/js/**",
                         "/img/**",
                         "/webjars/**")
                 .permitAll()
-                .antMatchers("/login")
+                .anyRequest()
                 .authenticated()
+//                .antMatchers("/access")
+//                .authenticated()
                 .and()
                 .oauth2Login()
-                .loginPage("/login")
+//                .loginPage("/login")
+                .defaultSuccessUrl("/authenticated")
                 .permitAll()
         ;
     }

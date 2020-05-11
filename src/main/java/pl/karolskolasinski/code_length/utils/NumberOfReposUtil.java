@@ -37,10 +37,10 @@ public class NumberOfReposUtil {
             if (e instanceof FileNotFoundException) {
                 numberOfPublicRepos = -2;
                 System.err.println("User not found.");
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             } else {
                 numberOfPublicRepos = -1;
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
 

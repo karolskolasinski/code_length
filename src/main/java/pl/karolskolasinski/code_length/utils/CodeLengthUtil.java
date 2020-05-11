@@ -75,7 +75,7 @@ public class CodeLengthUtil {
                 kilometersFromRepos = getKilometersFromRepos();
             } catch (IOException e) {
                 kilometersFromRepos = -1;
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
 
@@ -101,7 +101,8 @@ public class CodeLengthUtil {
                 .filter(userRepo -> !userRepo.isFork())
                 .map(UserRepos::getName)
                 .map(repoName -> apiGithubURLBuilder.getSingleRepositoryURL(username, repoName))
-                .forEach(this::addSingleRepoToList);
+                .forEach(this::addSingleRepoToList)
+        ;
 
         return countKilometers();
     }

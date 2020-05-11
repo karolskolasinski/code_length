@@ -22,7 +22,8 @@ public class UserLanguageUtil {
                 .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-                .keySet();
+                .keySet()
+                ;
 
         return recognizeUserLanguage(languages);
     }
