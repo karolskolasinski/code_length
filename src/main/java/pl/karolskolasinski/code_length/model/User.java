@@ -10,7 +10,7 @@ public class User {
     private String login;
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("node_id")
     private String nodeId;

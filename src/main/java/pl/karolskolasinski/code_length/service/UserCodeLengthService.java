@@ -22,6 +22,7 @@ public class UserCodeLengthService {
     public void saveUserToDatabase(ObjectToDisplay objectToDisplay) {
         UserCodeLength userCodeLength = new UserCodeLength(
                 objectToDisplay.getUsername(),
+                objectToDisplay.getGithubId(),
                 objectToDisplay.getNumberOfPublicRepos(),
                 objectToDisplay.getLength(),
                 objectToDisplay.getLanguage());
@@ -35,6 +36,10 @@ public class UserCodeLengthService {
 
     public ObjectToDisplay getUserDetails(String username) {
         return new ObjectToDisplay(username);
+    }
+
+    public String getUsernameByGithubId(String githubId) {
+        return userCodeLengthRepository.findByGithubId(githubId).getGithubId();
     }
 
     /**

@@ -12,12 +12,13 @@ import java.util.List;
 @Getter
 public class ObjectToDisplay {
 
-    private final String username;
-    private final int numberOfPublicRepos;
-    private final double length;
-    private final String language;
-    private final List<String> reposNames;
-    private final Collection<UserRepos> userRepos;
+    private String username;
+    private String githubId;
+    private int numberOfPublicRepos;
+    private double length;
+    private String language;
+    private List<String> reposNames;
+    private Collection<UserRepos> userRepos;
 
     private NumberOfReposUtil numberOfReposUtil = new NumberOfReposUtil();
     private CodeLengthUtil codeLengthUtil = new CodeLengthUtil();
@@ -25,6 +26,7 @@ public class ObjectToDisplay {
 
     public ObjectToDisplay(String username) {
         this.username = username;
+        this.githubId = numberOfReposUtil.getGithubId(username);
         this.numberOfPublicRepos = numberOfReposUtil.getNumberOfPublicRepos(username);
         this.length = codeLengthUtil.codeLengthMeter(username, numberOfPublicRepos);
         this.userRepos = codeLengthUtil.getUserRepos();

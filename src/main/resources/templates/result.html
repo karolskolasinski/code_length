@@ -62,10 +62,10 @@
                 <span class="result-font-user" th:text="${username}"></span>
                 <br>
                 Something went wrong! Your code is probably too long to measure using the free Github API rate limit.
-                You can try again after some time (~2 hours), or authenticate yourself.
+                Try again via OAuth2 login.
             </div>
             <div class="col-12 text-center pt-4">
-                <a th:href="@{'/oauth2/authorization/github'}" class="btn btn-dark" role="button" aria-pressed="true">
+                <a th:href="@{'/oauth2/authorization/github'(githubUser=${username})}" class="btn btn-dark" role="button" aria-pressed="true">
                     Login with GitHub
                 </a>
             </div>

@@ -3,7 +3,6 @@ package pl.karolskolasinski.code_length.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,7 @@ public class IndexController {
     }
 
     @PostMapping(value = "/get")
-    public String getInfo(Model model, @ModelAttribute("username") String username) {
+    public String getInfo(Model model, @ModelAttribute("username") String username, String token) {
         if (uclService.incorrectUsername(username)) return onError(model, "You need to enter a username.");
         if (numberOfReposUtil.getNumberOfPublicRepos(username) == -2) return onError(model, "User not found.");
 
@@ -57,18 +56,13 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/authenticated")
-    public String authenticated(Model model, Principal principal, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-        String tokenValue = accessToken.getTokenValue();
-
-        System.out.println();
-        System.out.println(tokenValue);
-        System.out.println(principal.getName());
-        System.out.println();
-
-        return getInfo(model, principal.getName());
+    @GetMapping("/oauth")
+    public String oauth(Model model, Principal principal, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        return getInfo(model,
+                uclService.getUsernameByGithubId(principal.getName()),
+                authorizedClient.getAccessToken().getTokenValue()
+        );
     }
+
 
 }

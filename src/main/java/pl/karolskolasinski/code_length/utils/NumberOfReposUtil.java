@@ -12,6 +12,7 @@ import java.io.IOException;
 @Service
 public class NumberOfReposUtil {
 
+    private static final String USER_NOT_FOUND = "User not found.";
     private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
     private JSONReader jsonReader = new JSONReader();
     private GsonBuilder gsonBuilder = new GsonBuilder();
@@ -26,17 +27,13 @@ public class NumberOfReposUtil {
         int numberOfPublicRepos;
 
         try {
-            StringBuilder sb = new StringBuilder();
-            String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
-
-            jsonReader.readJSONFromURLByStringBuilder(sb, userProfileURL);
-            User user = gson.fromJson(sb.toString(), User.class);
+            User user = getUser(username);
 
             numberOfPublicRepos = user.getPublicRepos();
         } catch (IOException e) {
             if (e instanceof FileNotFoundException) {
                 numberOfPublicRepos = -2;
-                System.err.println("User not found.");
+                System.err.println(USER_NOT_FOUND);
                 System.err.println(e.getMessage());
             } else {
                 numberOfPublicRepos = -1;
@@ -47,4 +44,22 @@ public class NumberOfReposUtil {
         return numberOfPublicRepos;
     }
 
+    public String getGithubId(String username) {
+        String id = USER_NOT_FOUND;
+        try {
+            id = getUser(username).getId();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        return id;
+    }
+
+
+    private User getUser(String username) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
+
+        jsonReader.readJSONFromURLByStringBuilder(sb, userProfileURL);
+        return gson.fromJson(sb.toString(), User.class);
+    }
 }

@@ -24,6 +24,9 @@ public class UserCodeLength {
     @NotNull
     private String username;
 
+    @NotNull
+    private String githubId;
+
     private int numberOfRepos;
 
     private double length;
@@ -33,8 +36,9 @@ public class UserCodeLength {
     @CreationTimestamp
     private LocalDateTime localDateTime;
 
-    public UserCodeLength(@NotNull String username, int numberOfRepos, double length, String language) {
+    public UserCodeLength(@NotNull String username, @NotNull String githubId, int numberOfRepos, double length, String language) {
         this.username = username;
+        this.githubId = githubId;
         this.numberOfRepos = numberOfRepos;
         this.length = length;
         this.language = language;

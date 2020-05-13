@@ -72,7 +72,7 @@ class IndexControllerTest {
     private static Stream<Arguments> expectedTop10List() {
         List<UserCodeLength> emptyList = new ArrayList<>();
         List<UserCodeLength> oneElementList = new ArrayList<>();
-        oneElementList.add(new UserCodeLength("username", 3, 10.0, "PHP"));
+        oneElementList.add(new UserCodeLength("username", "1", 3, 10.0, "PHP"));
 
         return Stream.of(
                 Arguments.of(emptyList),
