@@ -23,11 +23,11 @@ public class NumberOfReposUtil {
      *
      * @param username: provided username in input form.
      */
-    public int getNumberOfPublicRepos(String username) {
+    public int getNumberOfPublicRepos(String username, String token) {
         int numberOfPublicRepos;
 
         try {
-            User user = getUser(username);
+            User user = getUser(username, token);
 
             numberOfPublicRepos = user.getPublicRepos();
         } catch (IOException e) {
@@ -44,10 +44,10 @@ public class NumberOfReposUtil {
         return numberOfPublicRepos;
     }
 
-    public String getGithubId(String username) {
+    public String getGithubId(String username, String token) {
         String id = USER_NOT_FOUND;
         try {
-            id = getUser(username).getId();
+            id = getUser(username, token).getId();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -55,11 +55,11 @@ public class NumberOfReposUtil {
     }
 
 
-    private User getUser(String username) throws IOException {
+    private User getUser(String username, String token) throws IOException {
         StringBuilder sb = new StringBuilder();
         String userProfileURL = apiGithubURLBuilder.getUserProfileURL(username);
 
-        jsonReader.readJSONFromURLByStringBuilder(sb, userProfileURL);
+        jsonReader.readJSONFromURLByStringBuilder(sb, userProfileURL, token);
         return gson.fromJson(sb.toString(), User.class);
     }
 }

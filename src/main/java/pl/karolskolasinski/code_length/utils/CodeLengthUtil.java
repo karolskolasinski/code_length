@@ -54,10 +54,11 @@ public class CodeLengthUtil {
     /**
      * Returns kilometers of user code. Reads JSON from every page of user repos, parses to collection of UserRepos (loop by number of pages).
      *
-     * @param username:            provided username in input form.
-     * @param numberOfPublicRepos: number of user public repos (given by getNumberOfPublicRepos(String username) from NumberOfReposUtil class).
+     * @param username            :            provided username in input form.
+     * @param numberOfPublicRepos : number of user public repos (given by getNumberOfPublicRepos(String username) from NumberOfReposUtil class).
+     * @param token
      */
-    public double codeLengthMeter(String username, int numberOfPublicRepos) {
+    public double codeLengthMeter(String username, int numberOfPublicRepos, String token) {
         this.username = username;
         this.numberOfPublicRepos = numberOfPublicRepos;
         int numberOfPages = getNumberOfPages();
@@ -66,13 +67,13 @@ public class CodeLengthUtil {
             try {
                 String userProfile = apiGithubURLBuilder.getUserReposURL(username, i);
                 StringBuilder sb = new StringBuilder();
-                jsonReader.readJSONFromURLByStringBuilder(sb, userProfile);
+                jsonReader.readJSONFromURLByStringBuilder(sb, userProfile, token);
 
                 Type collectionType = new TypeToken<Collection<UserRepos>>() {
                 }.getType();
                 userRepos.addAll(gson.fromJson(sb.toString(), collectionType));
 
-                kilometersFromRepos = getKilometersFromRepos();
+                kilometersFromRepos = getKilometersFromRepos(token);
             } catch (IOException e) {
                 kilometersFromRepos = -1;
                 System.err.println(e.getMessage());
@@ -95,13 +96,15 @@ public class CodeLengthUtil {
 
     /**
      * Returns kilometers of user code. Get URL for each non forked repository.
+     *
+     * @param token
      */
-    private double getKilometersFromRepos() {
+    private double getKilometersFromRepos(String token) {
         userRepos.stream()
                 .filter(userRepo -> !userRepo.isFork())
                 .map(UserRepos::getName)
                 .map(repoName -> apiGithubURLBuilder.getSingleRepositoryURL(username, repoName))
-                .forEach(this::addSingleRepoToList)
+                .forEach(singleRepositoryURL -> addSingleRepoToList(singleRepositoryURL, token))
         ;
 
         return countKilometers();
@@ -127,11 +130,11 @@ public class CodeLengthUtil {
      *
      * @param singleRepositoryURL: URL of single repo built based on each repoName from the userRepos list.
      */
-    private void addSingleRepoToList(String singleRepositoryURL) {
+    private void addSingleRepoToList(String singleRepositoryURL, String token) {
         try {
             StringBuilder sb = new StringBuilder();
 
-            jsonReader.readJSONFromURLByStringBuilder(sb, singleRepositoryURL);
+            jsonReader.readJSONFromURLByStringBuilder(sb, singleRepositoryURL, token);
             SingleRepo singleRepo = gson.fromJson(sb.toString(), SingleRepo.class);
 
             singleRepo.getTree().forEach(this::searchForSupportedFiles);

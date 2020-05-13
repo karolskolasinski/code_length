@@ -34,12 +34,12 @@ public class UserCodeLengthService {
         return new ArrayList<>(userCodeLengthRepository.findFirst10ByOrderByLengthDesc());
     }
 
-    public ObjectToDisplay getUserDetails(String username) {
-        return new ObjectToDisplay(username);
+    public ObjectToDisplay getUserDetails(String username, String token) {
+        return new ObjectToDisplay(username, token);
     }
 
     public String getUsernameByGithubId(String githubId) {
-        return userCodeLengthRepository.findByGithubId(githubId).getGithubId();
+        return userCodeLengthRepository.findFirstByGithubId(githubId).getUsername();
     }
 
     /**

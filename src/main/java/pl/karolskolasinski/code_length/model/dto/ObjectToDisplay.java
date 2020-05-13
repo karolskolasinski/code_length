@@ -24,11 +24,11 @@ public class ObjectToDisplay {
     private CodeLengthUtil codeLengthUtil = new CodeLengthUtil();
     private UserLanguageUtil userLanguageUtil = new UserLanguageUtil();
 
-    public ObjectToDisplay(String username) {
+    public ObjectToDisplay(String username, String token) {
         this.username = username;
-        this.githubId = numberOfReposUtil.getGithubId(username);
-        this.numberOfPublicRepos = numberOfReposUtil.getNumberOfPublicRepos(username);
-        this.length = codeLengthUtil.codeLengthMeter(username, numberOfPublicRepos);
+        this.githubId = numberOfReposUtil.getGithubId(username, token);
+        this.numberOfPublicRepos = numberOfReposUtil.getNumberOfPublicRepos(username, token);
+        this.length = codeLengthUtil.codeLengthMeter(username, numberOfPublicRepos, token);
         this.userRepos = codeLengthUtil.getUserRepos();
         this.language = userLanguageUtil.userLanguage(userRepos);
         this.reposNames = userLanguageUtil.reposNames(userRepos);

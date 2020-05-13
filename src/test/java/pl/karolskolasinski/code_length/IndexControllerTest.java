@@ -42,9 +42,6 @@ class IndexControllerTest {
     @Mock
     private UserCodeLengthRepository userCodeLengthRepository;
 
-    @Mock
-    private BaseOAuth2ProtectedResourceDetails baseOAuth2ProtectedResourceDetails;
-
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -121,11 +118,12 @@ class IndexControllerTest {
     void index_shouldReturnAnErrorMessageWhenTheUserHasNoPublicRepositories() throws Exception {
         //given
         String username = "givenUser";
+        String token = "token";
         ObjectToDisplay userToTest = new ObjectToDisplay(username, -2, 10.0, "PHP", new ArrayList<>(), new ArrayList<>());
 
         //when
-        when(uclService.getUserDetails(username)).thenReturn(userToTest);
-        when(numberOfReposUtil.getNumberOfPublicRepos(username)).thenReturn(userToTest.getNumberOfPublicRepos());
+        when(uclService.getUserDetails(username, token)).thenReturn(userToTest);
+        when(numberOfReposUtil.getNumberOfPublicRepos(username, token)).thenReturn(userToTest.getNumberOfPublicRepos());
 
         //then
         mockMvc.perform(post("/get")
@@ -142,6 +140,7 @@ class IndexControllerTest {
     void index_shouldReturnObjectToDisplayWhenProvidingUsername() throws Exception {
         //given
         String username = "givenUser";
+        String token = "token";
         int numberOfPublicRepos = 4;
         double length = 10.0;
         String language = "PHP";
@@ -151,7 +150,7 @@ class IndexControllerTest {
         ObjectToDisplay userToTest = new ObjectToDisplay(username, numberOfPublicRepos, length, language, reposNames, userRepos);
 
         //when
-        when(uclService.getUserDetails(username)).thenReturn(userToTest);
+        when(uclService.getUserDetails(username, token)).thenReturn(userToTest);
 
         //then
         mockMvc.perform(post("/get")

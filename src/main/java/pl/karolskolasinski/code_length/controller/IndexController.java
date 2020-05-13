@@ -29,7 +29,9 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, Principal principal) {
+        String usernameByGithubId = uclService.getUsernameByGithubId(principal.getName());
+        model.addAttribute("username", usernameByGithubId);
         model.addAttribute("top10", uclService.top10());
         return "index";
     }
@@ -37,9 +39,9 @@ public class IndexController {
     @PostMapping(value = "/get")
     public String getInfo(Model model, @ModelAttribute("username") String username, String token) {
         if (uclService.incorrectUsername(username)) return onError(model, "You need to enter a username.");
-        if (numberOfReposUtil.getNumberOfPublicRepos(username) == -2) return onError(model, "User not found.");
+        if (numberOfReposUtil.getNumberOfPublicRepos(username, token) == -2) return onError(model, "User not found.");
 
-        ObjectToDisplay objectToDisplay = uclService.getUserDetails(username);
+        ObjectToDisplay objectToDisplay = uclService.getUserDetails(username, token);
 
         model.addAttribute("username", username);
         model.addAttribute("numberOfPublicRepos", objectToDisplay.getNumberOfPublicRepos());
@@ -58,11 +60,9 @@ public class IndexController {
 
     @GetMapping("/oauth")
     public String oauth(Model model, Principal principal, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
-        return getInfo(model,
-                uclService.getUsernameByGithubId(principal.getName()),
-                authorizedClient.getAccessToken().getTokenValue()
-        );
+        String usernameByGithubId = uclService.getUsernameByGithubId(principal.getName());
+        String tokenValue = authorizedClient.getAccessToken().getTokenValue();
+        return getInfo(model, usernameByGithubId, tokenValue);
     }
-
 
 }

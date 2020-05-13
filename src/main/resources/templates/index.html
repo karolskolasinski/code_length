@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="fragments :: meta" th:remove="tag"/>
     <title>code length app</title>
@@ -36,7 +36,13 @@
             <i class="fas fa-search"></i>
         </div>
         <div class="col-10 p-0">
-            <form th:action="@{/get}" th:method="post">
+            <form sec:authorize="isAuthenticated()">
+                <input class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2"
+                       type="text" min="1" th:placeholder="'you are logged in as ' + ${username}"
+                       required title="1 character minimum" readonly>
+            </form>
+
+            <form sec:authorize="!isAuthenticated()" th:action="@{/get}" th:method="post">
                 <input class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2" th:name="username" id="username"
                        type="text" min="1" placeholder="your github username"
                        required title="1 character minimum">
