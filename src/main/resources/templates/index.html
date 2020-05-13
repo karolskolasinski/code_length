@@ -37,9 +37,11 @@
         </div>
         <div class="col-10 p-0">
             <form sec:authorize="isAuthenticated()">
-                <input class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2"
-                       type="text" min="1" th:placeholder="'you are logged in as ' + ${username}"
-                       required title="1 character minimum" readonly>
+                <label>
+                    <input name="logged" class="w-100 border-0 pl-3 outline-none input-font pb-2 pt-2"
+                           type="text" min="1" th:placeholder="'you are logged in as ' + ${username}"
+                           required title="1 character minimum" readonly>
+                </label>
             </form>
 
             <form sec:authorize="!isAuthenticated()" th:action="@{/get}" th:method="post">

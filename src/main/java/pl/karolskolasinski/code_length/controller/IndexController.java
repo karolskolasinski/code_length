@@ -30,8 +30,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model, Principal principal) {
-        String usernameByGithubId = uclService.getUsernameByGithubId(principal.getName());
-        model.addAttribute("username", usernameByGithubId);
+        if (principal != null) {
+            String usernameByGithubId = uclService.getUsernameByGithubId(principal.getName());
+            model.addAttribute("username", usernameByGithubId);
+        }
+
         model.addAttribute("top10", uclService.top10());
         return "index";
     }
