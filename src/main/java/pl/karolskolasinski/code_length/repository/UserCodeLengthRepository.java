@@ -4,14 +4,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import pl.karolskolasinski.code_length.model.dto.UserCodeLength;
 
-import javax.persistence.NamedNativeQuery;
-import java.lang.annotation.Native;
 import java.util.Set;
 
 public interface UserCodeLengthRepository extends CrudRepository<UserCodeLength, Integer> {
 
-    Set<UserCodeLength> findFirst10ByOrderByLengthDesc();
+    @Query(value = "SELECT * FROM (SELECT DISTINCT ON (username) * FROM users ORDER BY username, length DESC) u ORDER BY length DESC LIMIT 10", nativeQuery = true)
+    Set<UserCodeLength> selectTop10();
 
-//    @Query(value = "SELECT username FROM users WHERE id = :id", nativeQuery = true)
     UserCodeLength findFirstByGithubId(String githubId);
 }

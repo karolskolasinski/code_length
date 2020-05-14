@@ -56,14 +56,14 @@ class IndexControllerTest {
     @DisplayName("should return index page with status OK")
     void index_shouldReturnIndexPageWithStatusOk(List<UserCodeLength> top10) throws Exception {
         //when
-        when(uclService.top10()).thenReturn(top10);
+//        when(uclService.selectTop10()).thenReturn(selectTop10);
 
         //then
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("top10"))
-                .andExpect(model().attribute("top10", top10));
+                .andExpect(model().attributeExists("selectTop10"))
+                .andExpect(model().attribute("selectTop10", top10));
     }
 
     private static Stream<Arguments> expectedTop10List() {

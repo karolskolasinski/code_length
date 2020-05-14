@@ -35,7 +35,7 @@ public class IndexController {
             model.addAttribute("username", usernameByGithubId);
         }
 
-        model.addAttribute("top10", uclService.top10());
+        model.addAttribute("top10", uclService.getTop10());
         return "index";
     }
 
@@ -56,7 +56,7 @@ public class IndexController {
     }
 
     private String onError(Model model, String errorMessage) {
-        model.addAttribute("top10", uclService.top10());
+        model.addAttribute("top10", uclService.getTop10());
         model.addAttribute("errorMessage", errorMessage);
         return "index";
     }
