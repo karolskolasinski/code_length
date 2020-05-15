@@ -87,11 +87,7 @@ public class CodeLengthUtil {
      * Calculates the number of pages from the number of public user repositories.
      */
     private int getNumberOfPages() {
-        double pages = (double) numberOfPublicRepos / 30;
-        if (pages > Math.round(pages)) {
-            pages++;
-        }
-        return (int) pages;
+        return (int) Math.ceil(numberOfPublicRepos / 30.0);
     }
 
     /**
