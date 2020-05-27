@@ -13,10 +13,10 @@ import java.io.IOException;
 public class NumberOfReposUtil {
 
     private static final String USER_NOT_FOUND = "User not found.";
-    private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
-    private JSONReader jsonReader = new JSONReader();
-    private GsonBuilder gsonBuilder = new GsonBuilder();
-    private Gson gson = gsonBuilder.create();
+    private final APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
+    private final JSONReader jsonReader = new JSONReader();
+    private final GsonBuilder gsonBuilder = new GsonBuilder();
+    private final Gson gson = gsonBuilder.create();
 
     /**
      * Returns number of user public repos. Reads JSON from user profile URL, parses to User object.

@@ -19,8 +19,8 @@ import java.security.Principal;
 @RequestMapping(path = "/")
 public class IndexController {
 
-    private UserCodeLengthService uclService;
-    private NumberOfReposUtil numberOfReposUtil;
+    private final UserCodeLengthService uclService;
+    private final NumberOfReposUtil numberOfReposUtil;
 
     @Autowired
     public IndexController(UserCodeLengthService uclService, NumberOfReposUtil numberOfReposUtil) {

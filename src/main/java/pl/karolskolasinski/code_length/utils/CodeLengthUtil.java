@@ -18,15 +18,15 @@ public class CodeLengthUtil {
 
     private String username;
     private int numberOfPublicRepos;
-    private APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
-    private JSONReader jsonReader = new JSONReader();
-    private GsonBuilder gsonBuilder = new GsonBuilder();
-    private Gson gson = gsonBuilder.create();
+    private final APIGithubURLBuilder apiGithubURLBuilder = new APIGithubURLBuilder();
+    private final JSONReader jsonReader = new JSONReader();
+    private final GsonBuilder gsonBuilder = new GsonBuilder();
+    private final Gson gson = gsonBuilder.create();
     private double kilometersFromRepos = -1;
     private double km;
-    private List<Integer> eachFileSize = new ArrayList<>();
-    private List<String> supportedFiles;
-    private Collection<UserRepos> userRepos = new ArrayList<>();
+    private final List<Integer> eachFileSize = new ArrayList<>();
+    private final List<String> supportedFiles;
+    private final Collection<UserRepos> userRepos = new ArrayList<>();
     private static final double CHAR_LENGTH_IN_PIXELS = 7;
     private static final double PIXEL_IN_KILOMETER = 0.0000002645833;
     private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXELS * PIXEL_IN_KILOMETER;
