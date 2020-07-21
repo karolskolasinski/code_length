@@ -26,14 +26,17 @@ class JSONReader {
         appendLinesToStringBuilder(sb, url.openStream());
     }
 
+
     private void connectWithToken(StringBuilder sb, String token, URL url) throws IOException {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestProperty("Authorization", "token " + token);
         appendLinesToStringBuilder(sb, httpURLConnection.getInputStream());
     }
 
+
     private void appendLinesToStringBuilder(StringBuilder sb, InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         reader.lines().forEach(sb::append);
     }
+
 }

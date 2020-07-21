@@ -22,11 +22,13 @@ public class IndexController {
     private final UserCodeLengthService uclService;
     private final NumberOfReposUtil numberOfReposUtil;
 
+
     @Autowired
     public IndexController(UserCodeLengthService uclService, NumberOfReposUtil numberOfReposUtil) {
         this.uclService = uclService;
         this.numberOfReposUtil = numberOfReposUtil;
     }
+
 
     @GetMapping("/")
     public String index(Model model, Principal principal) {
@@ -36,8 +38,10 @@ public class IndexController {
         }
 
         model.addAttribute("top10", uclService.getTop10());
+
         return "index";
     }
+
 
     @PostMapping(value = "/get")
     public String getInfo(Model model, @ModelAttribute("username") String username, String token) {
@@ -52,19 +56,24 @@ public class IndexController {
         model.addAttribute("language", objectToDisplay.getLanguage());
         model.addAttribute("repos", objectToDisplay.getReposNames());
         uclService.saveUserToDatabase(objectToDisplay);
+
         return "result";
     }
+
 
     private String onError(Model model, String errorMessage) {
         model.addAttribute("top10", uclService.getTop10());
         model.addAttribute("errorMessage", errorMessage);
+
         return "index";
     }
+
 
     @GetMapping("/oauth")
     public String oauth(Model model, Principal principal, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
         String usernameByGithubId = uclService.getUsernameByGithubId(principal.getName());
         String tokenValue = authorizedClient.getAccessToken().getTokenValue();
+
         return getInfo(model, usernameByGithubId, tokenValue);
     }
 

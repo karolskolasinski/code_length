@@ -11,5 +11,7 @@ public interface UserCodeLengthRepository extends CrudRepository<UserCodeLength,
     @Query(value = "SELECT * FROM (SELECT DISTINCT ON (username) * FROM users ORDER BY username, length DESC) u ORDER BY length DESC LIMIT 10", nativeQuery = true)
     Set<UserCodeLength> selectTop10();
 
+
     UserCodeLength findFirstByGithubId(String githubId);
+
 }

@@ -19,10 +19,10 @@ public class ObjectToDisplay {
     private final String language;
     private final List<String> reposNames;
     private final Collection<UserRepos> userRepos;
-
     private final NumberOfReposUtil numberOfReposUtil = new NumberOfReposUtil();
     private final CodeLengthUtil codeLengthUtil = new CodeLengthUtil();
     private final UserLanguageUtil userLanguageUtil = new UserLanguageUtil();
+
 
     public ObjectToDisplay(String username, String token) {
         this.username = username;
@@ -34,6 +34,7 @@ public class ObjectToDisplay {
         this.reposNames = userLanguageUtil.reposNames(userRepos);
     }
 
+
     public ObjectToDisplay(String username, int numberOfPublicRepos, double length, String language, List<String> reposNames, Collection<UserRepos> userRepos) {
         this.username = username;
         this.numberOfPublicRepos = numberOfPublicRepos;
@@ -42,4 +43,5 @@ public class ObjectToDisplay {
         this.reposNames = reposNames;
         this.userRepos = userRepos;
     }
+
 }

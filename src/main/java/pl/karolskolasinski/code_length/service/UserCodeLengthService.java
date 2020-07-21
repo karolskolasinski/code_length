@@ -13,10 +13,12 @@ public class UserCodeLengthService {
 
     private final UserCodeLengthRepository userCodeLengthRepository;
 
+
     @Autowired
     public UserCodeLengthService(UserCodeLengthRepository userCodeLengthRepository) {
         this.userCodeLengthRepository = userCodeLengthRepository;
     }
+
 
     public void saveUserToDatabase(ObjectToDisplay objectToDisplay) {
         UserCodeLength userCodeLength = new UserCodeLength(
@@ -29,22 +31,25 @@ public class UserCodeLengthService {
         userCodeLengthRepository.save(userCodeLength);
     }
 
+
     public Set<UserCodeLength> getTop10() {
         return userCodeLengthRepository.selectTop10();
     }
+
 
     public ObjectToDisplay getUserDetails(String username, String token) {
         return new ObjectToDisplay(username, token);
     }
 
+
     public String getUsernameByGithubId(String githubId) {
         return userCodeLengthRepository.findFirstByGithubId(githubId).getUsername();
     }
 
-    /**
-     * Regex for only letters and numbers
-     */
+
+    // regex for only letters and numbers
     public boolean incorrectUsername(String username) {
         return !username.matches("^[a-zA-Z0-9]+$");
     }
+
 }

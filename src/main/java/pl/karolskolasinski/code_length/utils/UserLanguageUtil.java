@@ -22,11 +22,11 @@ public class UserLanguageUtil {
                 .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-                .keySet()
-                ;
+                .keySet();
 
         return recognizeUserLanguage(languages);
     }
+
 
     /**
      * Returns the user's language. If the language list size is 0, then the language is not recognized.
@@ -47,6 +47,7 @@ public class UserLanguageUtil {
         return userLanguage;
     }
 
+
     /**
      * Returns the full list of user public repositories names (forked included).
      *
@@ -57,4 +58,5 @@ public class UserLanguageUtil {
                 .map(UserRepos::getName)
                 .collect(Collectors.toList());
     }
+
 }

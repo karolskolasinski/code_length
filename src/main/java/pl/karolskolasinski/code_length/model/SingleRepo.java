@@ -11,11 +11,14 @@ public class SingleRepo {
     @SerializedName("sha")
     private String sha;
 
+
     @SerializedName("url")
     private String URL;
 
+
     @SerializedName("tree")
     private List<Tree> tree;
+
 
     @SerializedName("truncated")
     private boolean truncated;

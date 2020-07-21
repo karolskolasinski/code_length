@@ -31,6 +31,7 @@ public class CodeLengthUtil {
     private static final double PIXEL_IN_KILOMETER = 0.0000002645833;
     private static final double MULTIPLIER = CHAR_LENGTH_IN_PIXELS * PIXEL_IN_KILOMETER;
 
+
     /**
      * Initializing and filling the list of supported files with the extensions the program is looking for.
      */
@@ -50,6 +51,7 @@ public class CodeLengthUtil {
         supportedFiles.add(".ex");
         supportedFiles.add(".go");
     }
+
 
     /**
      * Returns kilometers of user code. Reads JSON from every page of user repos, parses to collection of UserRepos (loop by number of pages).
@@ -83,12 +85,14 @@ public class CodeLengthUtil {
         return kilometersFromRepos;
     }
 
+
     /**
      * Calculates the number of pages from the number of public user repositories.
      */
     private int getNumberOfPages() {
         return (int) Math.ceil(numberOfPublicRepos / 30.0);
     }
+
 
     /**
      * Returns kilometers of user code. Get URL for each non forked repository.
@@ -106,6 +110,7 @@ public class CodeLengthUtil {
         return countKilometers();
     }
 
+
     /**
      * Calculates kilometers of user code by multiplying each file size by MULTIPLIER.
      */
@@ -114,12 +119,14 @@ public class CodeLengthUtil {
         return roundOff();
     }
 
+
     /**
      * Rounds the product of the kilometer of the code.
      */
     private double roundOff() {
         return Math.round(km * 100.0) / 100.0;
     }
+
 
     /**
      * Reads JSON from every single user repo, parses to SingleRepo object.
@@ -139,6 +146,7 @@ public class CodeLengthUtil {
         }
     }
 
+
     /**
      * Adds the file size to the list if the file extension is in the list of supported files.
      *
@@ -151,7 +159,9 @@ public class CodeLengthUtil {
                 .forEach(supportedFile -> eachFileSize.add(singleRepoTree.getSize()));
     }
 
+
     public Collection<UserRepos> getUserRepos() {
         return userRepos;
     }
+
 }

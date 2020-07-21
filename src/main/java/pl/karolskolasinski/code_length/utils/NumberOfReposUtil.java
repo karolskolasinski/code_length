@@ -18,6 +18,7 @@ public class NumberOfReposUtil {
     private final GsonBuilder gsonBuilder = new GsonBuilder();
     private final Gson gson = gsonBuilder.create();
 
+
     /**
      * Returns number of user public repos. Reads JSON from user profile URL, parses to User object.
      *
@@ -44,13 +45,16 @@ public class NumberOfReposUtil {
         return numberOfPublicRepos;
     }
 
+
     public String getGithubId(String username, String token) {
         String id = USER_NOT_FOUND;
+
         try {
             id = getUser(username, token).getId();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+
         return id;
     }
 
@@ -62,4 +66,5 @@ public class NumberOfReposUtil {
         jsonReader.readJSONFromURLByStringBuilder(sb, userProfileURL, token);
         return gson.fromJson(sb.toString(), User.class);
     }
+
 }
